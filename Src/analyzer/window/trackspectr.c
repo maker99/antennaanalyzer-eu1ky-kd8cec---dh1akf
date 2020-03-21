@@ -43,7 +43,7 @@
 #include "smith.h"
 #include "textbox.h"
 #include "generator.h"
-#include "FreqCounter.h"
+#include "BeepTimer.h"
 #include "bitmaps/bitmaps.h"
 
 #define X0 51
@@ -109,19 +109,19 @@ void TRACK_Beep(int duration)
     if (BeepOn1==0)
         return;
 
-    if(trackbeep==0)
-    {
-        trackbeep=1;
+    //if(trackbeep==0)
+    //{
+      //  trackbeep=1;
         AUDIO1=1;
         UB_TIMER2_Init_FRQ(880);
         UB_TIMER2_Start();
         Sleep(100);
         AUDIO1=0;
-       // UB_TIMER2_Stop();
-    }
+        //UB_TIMER2_Stop();
+    //}
 
-    if(duration==1)
-        trackbeep=0;
+    //if(duration==1)
+        //trackbeep=0;
 }
 
 static void DrawAutoText(void)

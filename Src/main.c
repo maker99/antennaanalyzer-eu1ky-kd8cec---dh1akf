@@ -19,7 +19,6 @@
 #include "bitmaps/bitmaps.h"
 #include "screenshot.h"
 #include "DS3231.h"
-
 #include "stm32f7xx.h"
 #include "stm32f7xx_hal.h"
 #include "stm32f7xx_hal_def.h"
@@ -76,6 +75,8 @@ void ADC3_Init(void){
 static uint32_t date1, time1;
 static uint8_t second, second1;
 static short AMPM,AMPM1;
+extern int BeepIsActive, SWRTone;
+extern uint8_t AUDIO1;
 
 int main(void)
 {
@@ -89,6 +90,7 @@ int main(void)
     InitTimer2_4_5(); // WK
     ADC3_Init();   // WK
     SPI2_Init();
+    BeepIsActive=SWRTone=0;
     Sleep(300);
     TOUCH_Init();
     setup_GPIO();

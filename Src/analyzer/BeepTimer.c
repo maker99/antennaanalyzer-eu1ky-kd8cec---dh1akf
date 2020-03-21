@@ -9,11 +9,12 @@
 #include "stm32f7xx_hal_def.h"
 #include "stm32f7xx_hal_tim.h"
 #include "panvswr2.h"
-#include "FreqCounter.h"
+#include "BeepTimer.h"
 #include "main.h"
 
 #define preScaler 8;
 
+int BeepIsActive, SWRTone;
 static void MX_TIM5_Init(void);
 //static void MX_TIM4_Init(void);
 void P_TIM2_TIMER(uint16_t prescaler, uint16_t periode);
@@ -205,7 +206,7 @@ void TIM5_IRQHandler(void)
 
 
 /**********************************************call back function****************************************************************/
-extern uint8_t AUDIO1;
+uint8_t AUDIO1;
 
 void UB_TIMER2_ISR_CallBack()// frequency 1 kHz || AUDIO: 200 Hz ..2000Hz
 {

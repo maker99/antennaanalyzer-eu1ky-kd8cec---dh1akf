@@ -201,10 +201,12 @@ uint32_t TEXTBOX_HitTest(TEXTBOX_CTX_t *ctx)
             {
                 //Execute hit callback
                 if(BeepOn1==1){
+                    AUDIO1=1;
                     UB_TIMER2_Init_FRQ(880);
                     UB_TIMER2_Start();
                     Sleep(100);
-                    UB_TIMER2_Stop();
+                    AUDIO1=0;
+                    //UB_TIMER2_Stop();
                 }
                 if (pbox->cb)
                 {

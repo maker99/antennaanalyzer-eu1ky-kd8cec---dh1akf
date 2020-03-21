@@ -222,6 +222,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="Src\analyzer\adc\stm32_ub_system.h" />
+		<Unit filename="Src\analyzer\BeepTimer.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="Src\analyzer\config\config.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -261,9 +264,6 @@
 		<Unit filename="Src\analyzer\fftfilters\flt_lpf.h" />
 		<Unit filename="Src\analyzer\fftfilters\flt_stop_50.h" />
 		<Unit filename="Src\analyzer\fftfilters\flt_windows.h" />
-		<Unit filename="Src\analyzer\FreqCounter.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="Src\analyzer\gen\adf4350.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -664,8 +664,8 @@
 		<Unit filename="Src\fatfs\option\unicode.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="Src\Inc\BeepTimer.h" />
 		<Unit filename="Src\Inc\crash.h" />
-		<Unit filename="Src\Inc\FreqCounter.h" />
 		<Unit filename="Src\Inc\main.h" />
 		<Unit filename="Src\Inc\sdram_heap.h" />
 		<Unit filename="Src\Inc\stm32f7xx_hal_conf.h" />

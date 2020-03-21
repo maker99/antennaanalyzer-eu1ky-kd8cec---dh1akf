@@ -32,7 +32,7 @@
 #include "smith.h"
 #include "textbox.h"
 #include "generator.h"
-#include "FreqCounter.h"
+#include "BeepTimer.h"
 #include "bitmaps/bitmaps.h"
 
 #define X0 51
@@ -1774,8 +1774,6 @@ void setup_GPIO(void) // GPIO I Pin 2 for buzzer
 }
 
 static uint32_t freqChg;
-
-uint8_t AUDIO1=1;
 
 void Tune_SWR_Proc(void){// -----------------------------------------------------------------------
 

@@ -7,7 +7,7 @@
 
 #include "hit.h"
 #include "config.h"
-#include "FreqCounter.h"
+#include "BeepTimer.h"
 
 
 void ShowHitRect(const struct HitRect* r){// WK
@@ -37,7 +37,8 @@ int HitTest(const struct HitRect* r, uint32_t x, uint32_t y)
                         UB_TIMER2_Init_FRQ(880);
                         UB_TIMER2_Start();
                         Sleep(100);
-                        UB_TIMER2_Stop();
+                        AUDIO1=0;
+                        //UB_TIMER2_Stop();
                     }
                 }
                 r->HitCallback();

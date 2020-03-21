@@ -183,10 +183,10 @@ static void DrawMeasureLC(DSP_RX rx, int findedIndex, uint32_t findedFreq, int i
     float Luh = 1e6 * fabsf(im) / (2.0 * 3.1415926 * GEN_GetLastFreq());
     float Cpf = 1e12 / (2.0 * 3.1415926 * GEN_GetLastFreq() * fabs(im));
 
-    sprintf(str, "L: %.7f", Luh);
+    sprintf(str, "L: %.4f", Luh);
     FONT_Write(FONT_FRAN, LC_Mode == 0 ? SELECT_FREQ_COLOR : TextColor, BACK_COLOR, PANEL_LEFT1, 200, str);
 
-    sprintf(str, "C: %.7f", Cpf);
+    sprintf(str, "C: %.2f", Cpf);
     FONT_Write(FONT_FRAN, LC_Mode == 1 ? SELECT_FREQ_COLOR : TextColor, BACK_COLOR, PANEL_LEFT2, 200, str);
 
     if (isFinded)
@@ -243,11 +243,11 @@ static void DrawMeasureLC(DSP_RX rx, int findedIndex, uint32_t findedFreq, int i
 
         if (qualityValue > 40)
         {
-            sprintf(str, "[E] %.3f pF", Cpf);
+            sprintf(str, "[E] %.2f pF", Cpf);
         }
         else
         {
-            sprintf(str, "%.3f pF", Cpf);
+            sprintf(str, "%.1f pF", Cpf);//DH1AKF  3 digits make no sense
         }
 
         if (im > -1.0 || im < -5000.0f)

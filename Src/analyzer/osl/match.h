@@ -11,28 +11,11 @@
 #include <stdint.h>
 #include <complex.h>
 
-/// L-Network solution structure
-typedef struct
-{
-    float XPS; ///< Reactance parallel to source (can be NAN if not applicable)
-    float XS;  ///< Serial reactance (can be 0.0 if not applicable)
-    float XPL; ///< Reactance parallel to load (can be NAN if not applicable)
-} MATCH_S;
-
 /**
     @brief   Calculate L-Networks on ideal lumped elements for given load impedance
     @param   ZL Load impedance
-    @param   pResult array of 4 MATCH_S structures
-    @return  0 if no solution available (or not needed), 1..4 for number of solutions found and filled into pResult
 */
-uint32_t MATCH_Calc(float complex ZL, MATCH_S *pResult);
+void MATCH_Calc(int X0, int Y0, float complex ZL);
 
-/**
-    @brief   Convert X to capacitor (in pF) or inductance (in uH) string value
-    @param   FHz Frequency in Hz
-    @param   X impedance to convert to capacitor or inductor value at frequency FHz
-    @param   str pointer to string buffer
-*/
-void MATCH_XtoStr(uint32_t FHz, float X, char* str);
 
 #endif // _MATCH_H_

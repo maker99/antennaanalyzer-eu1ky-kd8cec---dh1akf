@@ -1,6 +1,6 @@
 /*
- *   (c) Yury Kuchura
- *   kuchura@gmail.com
+ *   (c) Wolfgang Kiefer
+ *   dh1akf@darc.de
  *
  *   This code can be used on terms of WTFPL Version 2 (http://www.wtfpl.net/).
  */
@@ -9,151 +9,162 @@
 #include <stdio.h>
 #include <string.h>
 #include "match.h"
+#include "LCD.h"
+#include "font.h"
 #include "dsp.h"
 #include "config.h"
 
-static int quadratic_equation(float a, float b, float c, float *pResult)
-{
-    float d = b * b - 4 * a * c;
-    if (d < 0)
+#define NORESULT 1000000.f
+
+uint32_t fHz;
+
+void PrintValue(float X, char* str){
+    if (X == NORESULT)
     {
-        pResult[0] = 0.f;
-        pResult[1] = 0.f;
-        return 0;
+        strcpy(str, "     --- ");
     }
-    float sd = sqrtf(d);
-    pResult[0] = (-b + sd) / (2.f * a);
-    pResult[1] = (-b - sd) / (2.f * a);
-    return 2;
+    else if ((0.f == X) || (-0.f == X))
+    {
+        strcpy(str, "        0");
+    }
+	else{
+		if (X < 0.f)
+		{
+			float CpF = -1e12f / (2.f * M_PI * fHz * X);
+			sprintf(str, " %6.1f pF", CpF);
+		}
+		else
+		{
+			float LuH = (1e6f * X) / (2.f * M_PI * fHz);
+			sprintf(str, "%6.3f uH",  LuH);
+		}
+	}
+
+}
+
+int PrintLine(int X0, int Y0, float k1, float k2, float k3){
+char str1[32];
+char str2[32];
+char str3[32];
+	PrintValue(k1, str1);
+	PrintValue(k2, str2);
+	PrintValue(k3, str3);
+	FONT_Print(FONT_FRAN, LCD_WHITE, LCD_BLACK, X0, Y0, "%8s   %8s   %8s", str1, str2, str3);
+	return Y0 + FONT_GetHeight(FONT_FRAN) + 4;
+
 }
 
 // Calculate two solutions for ZL where R + X * X / R > R0
-static void calc_hi(float R0, float complex ZL, MATCH_S *pResult)
-{
-    float Rl = crealf(ZL);
-    float Xl = cimagf(ZL);
-    float a = R0 - Rl;
-    float b = 2 * Xl * R0;
-    float c = R0 * (Xl * Xl + Rl * Rl);
-    float xp[2];
-
-    pResult[0].XS  = NAN;
-    pResult[0].XPS = NAN;
-    pResult[0].XPL = NAN;
-    pResult[1].XS  = NAN;
-    pResult[1].XPS = NAN;
-    pResult[1].XPL = NAN;
-
-    int solutions = quadratic_equation(a, b, c, xp);
-    if(solutions==0) return;// no solutions
-
-    //Found two impedances parallel to load
-
-    //Now calculate serial impedances
-    float complex ZZ1 = ZL * (0.f + xp[0] * I) / (ZL + (0.f + xp[0] * I));
-    pResult[0].XS = -cimagf(ZZ1);
-    pResult[0].XPS = NAN;
-    pResult[0].XPL = xp[0];
-
-    float complex ZZ2 = ZL * (0.f + xp[1] * I) / (ZL + (0.f + xp[1] * I));
-    pResult[1].XS = -cimagf(ZZ2);
-    pResult[1].XPS = NAN;
-    pResult[1].XPL = xp[1];
+int calc_hi(int X0, int Y0, float R0, float complex ZL){
+    float R = crealf(ZL);
+    float X = cimagf(ZL);
+    int Ynew;
+	float m1, m2, m3, m4, m5, m6;
+    int ret = 0;
+    if (R0 == R) return Y0;
+    float e = X * R0 / (R - R0);
+    float f = sqrt(R * R0) / (R - R0);
+    float h = R * R - R * R0 + X * X;
+    if (h < 0) return Y0;
+    h = sqrt(h);
+    float p = e + f * h;
+    float q = e - f * h;
+    float s = (R * R * p + p * X * X + p * p * X) / ((X + p) * (X + p) + R * R);
+    m1 = m2 = m3 = m4 = m5 = m6 = NORESULT;
+    if ((p < 0) && (q < 0)){//case 11B
+        m1 = q;// capacitor SourceParallel
+        m2 = s;// inductor Serial
+        ret= 2;
+    }
+    else if ((p > 0) && (q > 0)) {//case 12D
+        m1 = p;// inductor SourceParallel
+        m2 = -s;// capacitor Serial
+        ret = 4;
+    }
+    else if ((p > 0) && (q < 0)) {
+        m1 = q;// capacitor SourceParallel case 11B
+        m2 = s;// inductor Serial
+        ret = 6;
+        // 2nd solution:                case 12D
+        m4= p;// inductor SourceParallel
+        m5 = -s;// capacitor Serial
+    }
+    if (ret != 0) {
+        Ynew = PrintLine(X0, Y0, m1, m2, m3);
+    }
+    if (ret == 6) {
+        Ynew = PrintLine(X0, Ynew, m4, m5, m6);
+    }
+    return Ynew;
 }
 
 // Calculate two solutions for ZL where R < R0
-static void calc_lo(float R0, float complex ZL, MATCH_S *pResult)
-{
-    float Rl = crealf(ZL);
-    float Xl = cimagf(ZL);
-    // Calculate Xs
-    float a = 1.f;
-    float b = 2.f * Xl;
-    float c = Rl * Rl + Xl * Xl - R0 * Rl;
-    float xs[2];
+int calc_lo(int X0, int Y0, float R0, float complex ZL){
+float R = crealf(ZL);
+float X = cimagf(ZL);
+float m1, m2, m3, m4, m5, m6;
+int ret = 0;
+int Ynew;
+    m1 = m2 = m3 = m4 = m5 = m6 = NORESULT;
+    if (R0 == R) {
+         m2 = -X;// Ser = -X compensates X
+         ret = 7;
+    }
+	else{
+		if (R0 < R) return Y0;
 
-    pResult[0].XS  = NAN;
-    pResult[0].XPS = NAN;
-    pResult[0].XPL = NAN;
-    pResult[1].XS  = NAN;
-    pResult[1].XPS = NAN;
-    pResult[1].XPL = NAN;
+		float a = sqrt(R * (R0 - R)) - X;
+		float b = R0 * sqrt(R / (R0 - R));
+		float c = -2 * X - a;
 
-    int solutions = quadratic_equation(a, b, c, xs);
-    if(solutions==0) return;// no solutions
-
-    //Got two serial impedances that change ZL to the Y.real = 1/R0
-
-    float complex ZZ1 = ZL + xs[0] * I;
-    float complex ZZ2 = ZL + xs[1] * I;
-
-    //Now calculate impedances parallel to source
-    float xp1 = cimagf(ZZ1 * R0 / (ZZ1 - R0));
-    float xp2 = cimagf(ZZ2 * R0 / (ZZ2 - R0));
-
-    pResult[0].XS = xs[0];
-    pResult[0].XPS = xp1;
-    pResult[0].XPL = NAN;
-
-    pResult[1].XS = xs[1];
-    pResult[1].XPS = xp2;
-    pResult[1].XPL = NAN;
+		if ((a < 0) && (c < 0) && (a < c)) {// case 1C
+			 m2 = c;// a < 0 capacitor Serial
+			 m3 = -a;// inductor LoadParallel
+			 ret = 3;
+		}
+		else if ((a < 0) && (c < 0) && (a >= c)) { // case 4C
+			 m2 = c;// capacitor Serial
+			 m3 = b;// inductor LoadParallel
+			 ret = 3;
+		}
+		else if ((a > 0) && (c > 0)) {// case 2A
+			 m2 = a;// inductor Serial
+			 m3 = -b;//capacitor LoadParallel
+			 ret = 1;
+		}
+		if ((a >= 0) && (c <= 0)) {// case 3C + 3A
+			 m2 = c;// capacitor Serial
+			 m3 = b;// inductor  LoadParallel
+			 ret = 5;
+			 ;// 2nd variant:
+			 m5 = a;// inductor Serial
+			 m6 = -b;//capacitor LoadParallel
+		}
+	}
+	if (ret != 0)
+		Ynew = PrintLine(X0, Y0, m1, m2, m3);
+	if(ret==5)
+		Ynew = PrintLine(X0, Ynew, m4, m5, m6);
+	return Ynew;
 }
 
-uint32_t MATCH_Calc(float complex ZL, MATCH_S *pResult)
-{
-    float vswr = DSP_CalcVSWR(ZL);
-    if (vswr <= 1.1f || vswr >= 50.f)
-        return 0; //Don't calculate for low and too high VSWR
-
+void MATCH_Calc(int X0, int Y0, float complex ZL){
+int Ynew;
+float vswr = DSP_CalcVSWR(ZL);
+    if (vswr <= 1.1f || vswr >= 50.f){
+			//Don't calculate for low and too high VSWR
+		FONT_Write(FONT_FRAN, LCD_WHITE, LCD_BLACK, X0, Y0, "No LC match for this load");
+		return;
+	}
+	fHz = CFG_GetParam(CFG_PARAM_MEAS_F);// global variable
     float R0 = (float)CFG_GetParam(CFG_PARAM_R0);
-
     if ((crealf(ZL) > (0.91f * R0)) && (crealf(ZL) < (1.1f * R0)))
     {//Only one solution is enough: just a serial reactance, this gives SWR < 1.1 if R is within the range 0.91 .. 1.1 of R0
-        pResult[0].XPL = NAN;
-        pResult[0].XPS = NAN;
-        pResult[0].XS = -cimagf(ZL);
-        return 1;
-    }
-
-    if (crealf(ZL) < R0)
-    {
-        //Calc Lo-Z solutions here
-        calc_lo(R0, ZL, pResult);
-
-        if ((crealf(ZL) + cimagf(ZL) * cimagf(ZL) / crealf(ZL)) > R0)
-        {// Two more Hi-Z solutions exist
-            calc_hi(R0, ZL, &pResult[2]);
-            return 4;
-        }
-        return 2;
-    }
-
-    // Only two Hi-Z solutions
-    calc_hi(R0, ZL, pResult);
-    return 2;
-}
-
-void MATCH_XtoStr(uint32_t FHz, float X, char* str)
-{
-    if (isnanf(X))
-    {
-        strcpy(str, " --- ");
+		PrintLine(X0, Y0, NORESULT, NORESULT, -cimagf(ZL));
         return;
     }
-    if (0.f == X || -0.f == X)
-    {
-        strcpy(str, "0");
-        return;
-    }
-    if (X < 0.f)
-    {
-        float CpF = -1e12f / (2.f * M_PI * FHz * X);
-        sprintf(str, "%.1f pF", CpF);
-    }
-    else
-    {
-        float LuH = (1e6f * X) / (2.f * M_PI * FHz);
-        sprintf(str, "%.2f uH",  LuH);
-    }
+			//Calc Lo-Z solutions here
+    Ynew = calc_lo(X0, Y0, R0, ZL);
+			// Calc the Hi-Z solutions
+    Ynew = calc_hi(X0, Ynew, R0, ZL);
 }

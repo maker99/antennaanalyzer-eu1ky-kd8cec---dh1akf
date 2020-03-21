@@ -9,7 +9,7 @@
 #define _TOUCH_H_
 
 #include "LCD.h"
-#include "FreqCounter.h"
+#include "BeepTimer.h"
 
 #ifdef __cplusplus
 extern "C" {

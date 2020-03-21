@@ -18,7 +18,7 @@
 #include "num_keypad.h"
 #include "panfreq.h"
 #include "generator.h"
-#include "FreqCounter.h"
+#include "BeepTimer.h"
 
 extern uint32_t BackGrColor;
 extern uint32_t TextColor;

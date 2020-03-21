@@ -12,4 +12,6 @@ void UB_TIMER4_Init_FRQ(uint32_t frq_hz);
 void UB_TIMER4_Start(void);
 void UB_TIMER4_Stop(void);
 void UB_TIMER4_ISR_CallBack(void);
+int BeepIsActive, SWRTone;
+uint8_t AUDIO1;
 #endif

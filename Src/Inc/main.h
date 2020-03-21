@@ -50,7 +50,7 @@
 #include "usbd_desc.h"
 #include "usbd_msc.h"
 #include "stm32_ub_adc3_single.h"
-#include "FreqCounter.h"
+#include "BeepTimer.h"
 #include "panvswr2.h"
 
 #endif /* __MAIN_H */

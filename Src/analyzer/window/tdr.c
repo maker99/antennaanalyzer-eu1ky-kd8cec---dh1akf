@@ -229,8 +229,8 @@ static void TDR_DrawCursorText(void)
     FONT_Print(FONT_FRAN, TextColor, BackGrColor, 0, 15, "T: %.1f ns, Mag: %.5f  Vf=%.2f      Distance: ",
                ns, val, vf);
     LCD_FillRect(LCD_MakePoint(0,28), LCD_MakePoint(306, 59), BackGrColor);
-
-    float Zt = (float)CFG_GetParam(CFG_PARAM_R0) * (1 + step_response[(uint16_t)(TDR_cursorPos*(TDR_Length/(float)MaxTDR_Length))])/(1 - step_response[(uint16_t)(TDR_cursorPos*(TDR_Length/(float)MaxTDR_Length))]);
+    // instead CursorPosition: no. 2
+    float Zt = (float)CFG_GetParam(CFG_PARAM_R0) * (1 + step_response[(uint16_t)(2*(TDR_Length/(float)MaxTDR_Length))])/(1 - step_response[(uint16_t)(2*(TDR_Length/(float)MaxTDR_Length))]);
     if(Zt > 2999.f)
         Zt = 2999.f;
     //FONT_Print(FONT_FRAN, LCD_YELLOW, LCD_BLACK, 0, 31, "Z: %.1f   %.5f", Zt, step_response[(uint16_t)(TDR_cursorPos*(TDR_Length/(float)MaxTDR_Length))]);

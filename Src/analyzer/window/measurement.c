@@ -96,38 +96,15 @@ void DrawSmallSmith(int X0, int Y0, int R, float complex rx)
     LCD_FillRect(LCD_MakePoint(X0 - R - 20, Y0 - R - 5), LCD_MakePoint(LCD_GetWidth()-3, LCD_GetHeight()-5), BackGrColor);
     float complex G = OSL_GFromZ(rx, CFG_GetParam(CFG_PARAM_R0));
     if (isMatch)
-    { //Draw LC match
+     { //Print LC match
         X0 = X0 - R - 20;
         Y0 -= R;
-        MATCH_S matches[4];
-
-        uint32_t nMatches = MATCH_Calc(rx, matches);
-        if (0 == nMatches)
-        {
-            FONT_Write(FONT_FRAN, LCD_WHITE, BackGrColor, X0, Y0, "No LC match for this load");
-        }
-        else
-        {
-            uint32_t i;
-            uint32_t fHz = CFG_GetParam(CFG_PARAM_MEAS_F);
-            FONT_Print(FONT_FRAN, TextColor, BackGrColor, X0, Y0, "LC match for SRC Z0 = %d", CFG_GetParam(CFG_PARAM_R0));
-            Y0 += FONT_GetHeight(FONT_FRAN) + 4;
-            FONT_Write(FONT_FRAN, TextColor, BackGrColor, X0, Y0, "SRCpar   Ser   LoadPar");
-            Y0 += FONT_GetHeight(FONT_FRAN) + 4;
-            for (i = 0; i < nMatches; i++)
-            {
-                char strxpl[32];
-                char strxps[32];
-                char strxs[32];
-                MATCH_XtoStr(fHz, matches[i].XPL, strxpl);
-                MATCH_XtoStr(fHz, matches[i].XPS, strxps);
-                MATCH_XtoStr(fHz, matches[i].XS, strxs);
-                FONT_Print(FONT_FRAN, TextColor, BackGrColor, X0, Y0, "%s, %s, %s", strxps, strxs, strxpl);
-                Y0 += FONT_GetHeight(FONT_FRAN) + 4;
-            }
-
-        }
-        return;
+		FONT_Print(FONT_FRAN, LCD_PURPLE, LCD_BLACK, X0, Y0, "  LC match for SRC Z0 = %d Ohm", CFG_GetParam(CFG_PARAM_R0));
+		Y0 += FONT_GetHeight(FONT_FRAN) + 4;
+		FONT_Write(FONT_FRAN, LCD_WHITE, LCD_BLACK, X0, Y0, "SrcParallel       Serial     LoadParallel");
+		Y0 += FONT_GetHeight(FONT_FRAN) + 4;
+		MATCH_Calc(X0,Y0,rx);
+		return;
     }
 
     SMITH_DrawGrid(X0, Y0, R, Color2, BackGrColor, SMITH_R50 | SMITH_Y50 | SMITH_R25 | SMITH_R10 | SMITH_R100 | SMITH_R200 |
