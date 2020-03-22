@@ -686,7 +686,8 @@ void Single_Frequency_Proc(void)
                 FONT_Write(FONT_FRAN, TextColor, BackGrColor, 295, 68, "LC match      ");
             else {
                 FONT_Write(FONT_FRAN, TextColor, BackGrColor, 295, 68, "Smith diagram ");
-                MeasureFrequency();
+                //MeasureFrequency();
+
             }
             uint32_t speedcnt = 0;
             meas_maxstep = 500000;
