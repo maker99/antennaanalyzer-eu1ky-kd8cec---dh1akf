@@ -2,19 +2,39 @@
 # Before running make, ensure that path to arm-none-eabi-gcc is added to the system path, e.g. like this:
 # set PATH=d:\EmBitz\share\em_armgcc\bin\;%PATH%
 # set PATH=c:\Programme(x68)\EmBitz\share\em_armgcc\bin\;%PATH%
+# GNU ARM Embedded toolchain for Linux is available here:
+# https://launchpad.net/~team-gcc-arm-embedded/+archive/ubuntu/ppa
+
+ifeq ($(OS),Windows_NT)
+    DETECTED_OS := Windows
+else
+    DETECTED_OS := $(shell uname -s)
+endif
+
+ifeq ($(DETECTED_OS),Windows)
+   mkdir = mkdir $(subst /,\,$(1)) > nul 2>&1 || (exit 0)
+   rm = $(wordlist 2,65535,$(foreach FILE,$(subst /,\,$(1)),& del $(FILE) > nul 2>&1)) || (exit 0)
+   rmdir = del /F /S /Q $(subst /,\,$(1)) > nul 2>&1 || (exit 0)
+   gen_timestamp = gen_timestamp.bat
+else
+   mkdir = mkdir -p $(1)
+   rm = rm $(1) > /dev/null 2>&1 || true
+   rmdir = rm -rf $(1) > /dev/null 2>&1 || true
+   gen_timestamp = ./gen_timestamp.sh
+endif
 
 CC      = arm-none-eabi-gcc
 OBJCOPY = arm-none-eabi-objcopy
 SIZE    = arm-none-eabi-size
 
 CFLAGS  = -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -fgcse -fexpensive-optimizations -fomit-frame-pointer \
-          -fdata-sections -ffunction-sections -Os -g -mfpu=fpv5-sp-d16 -flto -MMD
+          -fdata-sections -ffunction-sections -Os -g -mfpu=fpv5-sp-d16 -MMD -Wall
 
 ASFLAGS = -mcpu=cortex-m7 -mthumb -Wa,--gdwarf-2
 
 LDFLAGS = -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -fgcse -fexpensive-optimizations -fomit-frame-pointer \
           -fdata-sections -ffunction-sections -Os -g -mthumb -mfpu=fpv5-sp-d16 -Wl,-Map=bin/Release/F7Discovery.map \
-          -u _printf_float -specs=nano.specs -Wl,--gc-sections -flto -TSrc/Sys/STM32F746NGHx_FLASH.ld -lm
+          -u _printf_float -specs=nano.specs -Wl,--gc-sections -TSrc/Sys/STM32F746NGHx_FLASH.ld -lm
 
 DEFINE = -DSTM32F746xx \
          -DSTM32F746G_DISCO \
@@ -234,34 +254,43 @@ OBJS += $(ASRC2:%.s=obj/release/%.s.o)
 
 DEPS = $(OBJS:.o=.d)
 
-all: gen bin/Release/F7Discovery.elf
+.PHONY: all
+
+all: 
+	@$(MAKE) -s gen
+	@$(MAKE) -s bin/Release/F7Discovery.elf
 
 clean:
-	@if exist "Src/Inc/build_timestamp.h" del "Src\Inc\build_timestamp.h"
-	@del /F /S /Q bin > nul
-	@del /F /S /Q obj > nul
-	@gen_timestamp.bat
+	$(call rm,Src/Inc/build_timestamp.h)
+	$(call rmdir,bin)
+	$(call rmdir,obj)
+	@$(call gen_timestamp)
 
-gen: Src\Inc\build_timestamp.h
-	@gen_timestamp.bat
+Src/Inc/build_timestamp.h:
+gen:
+	@$(call gen_timestamp)
 
 bin/Release/F7Discovery.elf : $(OBJS)
-	@if not exist "bin/Release" mkdir "bin/Release"
-	$(CC) $(OBJS) -o bin/Release/F7Discovery.elf $(LDFLAGS)
-	@$(OBJCOPY) -O ihex $@ $@.hex
-	@$(OBJCOPY) -O binary $@ $@.bin
-	@$(SIZE) bin\Release\F7Discovery.elf
+	@$(call mkdir,bin/Release)
+	@echo Linking...
+	@$(CC) $(OBJS) -o bin/Release/F7Discovery.elf $(LDFLAGS)
+	@$(OBJCOPY) -O ihex $@ $(basename $@).hex
+	@$(OBJCOPY) -O binary $@ $(basename $@).bin
+	@$(SIZE) $@
 
 obj/release/%.c.o : %.c
-	@if not exist "$(@D)" mkdir "$(@D)"
-	$(CC) $(CFLAGS) $(INCLUDE) $(DEFINE) -c $< -o $@
+	@$(call mkdir,"$(@D)")
+	@echo $<
+	@$(CC) $(CFLAGS) $(INCLUDE) $(DEFINE) -c $< -o $@
 
-obj/release/%.S.o : %.S
-	@if not exist "$(@D)" mkdir "$(@D)"
-	$(CC) $(CFLAGS) -c $< -o $@
+obj/release/Src/CMSIS/DSP_Lib/Source/TransformFunctions/arm_bitreversal2.o : Src/CMSIS/DSP_Lib/Source/TransformFunctions/arm_bitreversal2.S
+	@$(call mkdir,"$(@D)")
+	@echo $<
+	@$(CC) $(CFLAGS) -c $< -o $@
 
-obj/release/%.s.o : %.s
-	@if not exist "$(@D)" mkdir "$(@D)"
-	$(CC) $(ASFLAGS) -MMD -c $< -o $@
+obj/release/Src/Sys/startup_stm32f746xx.o : Src/Sys/startup_stm32f746xx.s
+	@$(call mkdir,"$(@D)")
+	@echo $<
+	@$(CC) $(ASFLAGS) -MMD -c $< -o $@
 
 -include $(DEPS)
