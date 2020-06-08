@@ -77,12 +77,16 @@ INCLUDE = -ISrc/BSP/Components/ampire480272 \
           -ISrc/dsp \
           -ISrc/USBD \
           -ISrc/uartcomm \
+          -I./Src/analyzer/adc \
           -I./Src/analyzer/config \
           -I./Src/analyzer/dsp \
+          -I./Src/analyzer/digital \
           -I./Src/analyzer/gen \
+          -I./Src/analyzer/gpio \
           -I./Src/analyzer/lcd/bitmaps \
           -I./Src/analyzer/lcd \
           -I./Src/analyzer/osl \
+          -I./Src/analyzer/rtc \
           -I./Src/analyzer/uartcomm \
           -I./Src/analyzer/window \
           -I./Src/BSP/Components/ampire480272 \
@@ -106,14 +110,25 @@ INCLUDE = -ISrc/BSP/Components/ampire480272 \
           -I./Src/STM32F7xx_HAL_Driver/Inc \
           -I./Src/USBD
 
-SRC :=   Src/analyzer/config/config.c \
+SRC :=  Src/analyzer/BeepTimer.c \
+        Src/analyzer/adc/stm32_ub_adc3_single.c \
+        Src/analyzer/adc/stm32_ub_system.c \
+        Src/analyzer/config/config.c \
+        Src/analyzer/digital/crc14.c \
+        Src/analyzer/digital/encode_rs_int.c \
+        Src/analyzer/digital/init_rs_int.c \
+        Src/analyzer/digital/JTEncode.c \
         Src/analyzer/dsp/dsp.c \
+        Src/analyzer/dsp/audioirq.c \
         Src/analyzer/gen/adf4350.c \
         Src/analyzer/gen/adf4351.c \
         Src/analyzer/gen/si5338a.c \
         Src/analyzer/gen/gen.c \
         Src/analyzer/gen/rational.c \
         Src/analyzer/gen/si5351.c \
+        Src/analyzer/gen/si5351_hs.c \
+        Src/analyzer/gpio/gpio_control.c \
+        Src/analyzer/lcd/bdigits.c \
         Src/analyzer/lcd/bitmaps/bitmaps.c \
         Src/analyzer/lcd/consbig.c \
         Src/analyzer/lcd/font.c \
@@ -123,25 +138,32 @@ SRC :=   Src/analyzer/config/config.c \
         Src/analyzer/lcd/LCD.c \
         Src/analyzer/lcd/libnsbmp.c \
         Src/analyzer/lcd/lodepng.c \
+        Src/analyzer/lcd/menufont.c \
         Src/analyzer/lcd/sdigits.c \
         Src/analyzer/lcd/smith.c \
         Src/analyzer/lcd/textbox.c \
         Src/analyzer/lcd/touch.c \
         Src/analyzer/osl/match.c \
         Src/analyzer/osl/oslfile.c \
+        Src/analyzer/rtc/DS3231.c \
         Src/analyzer/uartcomm/aauart.c \
+        Src/analyzer/uartcomm/aa600emul.c \
         Src/analyzer/uartcomm/fifo.c \
         Src/analyzer/window/fftwnd.c \
         Src/analyzer/window/generator.c \
         Src/analyzer/window/keyboard.c \
         Src/analyzer/window/mainwnd.c \
+        Src/analyzer/window/measurelcr.c\
         Src/analyzer/window/measurement.c \
         Src/analyzer/window/num_keypad.c \
         Src/analyzer/window/oslcal.c \
         Src/analyzer/window/panfreq.c \
         Src/analyzer/window/panvswr2.c \
         Src/analyzer/window/screenshot.c \
+        Src/analyzer/window/spectr.c\
         Src/analyzer/window/tdr.c \
+        Src/analyzer/window/trackspectr.c \
+        Src/analyzer/window/weaksignal.c \
         Src/BSP/Components/ft5336/ft5336.c \
         Src/BSP/Components/ov9655/ov9655.c \
         Src/BSP/Components/s5k5cag/s5k5cag.c \
@@ -252,13 +274,13 @@ OBJS := $(SRC:%.c=obj/release/%.c.o)
 OBJS += $(ASRC:%.S=obj/release/%.S.o)
 OBJS += $(ASRC2:%.s=obj/release/%.s.o)
 
+
 DEPS = $(OBJS:.o=.d)
 
 .PHONY: all
 
-all: 
-	@$(MAKE) -s gen
-	@$(MAKE) -s bin/Release/F7Discovery.elf
+all: gen bin/Release/F7Discovery.elf
+
 
 clean:
 	$(call rm,Src/Inc/build_timestamp.h)
@@ -283,12 +305,12 @@ obj/release/%.c.o : %.c
 	@echo $<
 	@$(CC) $(CFLAGS) $(INCLUDE) $(DEFINE) -c $< -o $@
 
-obj/release/Src/CMSIS/DSP_Lib/Source/TransformFunctions/arm_bitreversal2.o : Src/CMSIS/DSP_Lib/Source/TransformFunctions/arm_bitreversal2.S
+obj/release/%.S.o : %.S
 	@$(call mkdir,"$(@D)")
 	@echo $<
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-obj/release/Src/Sys/startup_stm32f746xx.o : Src/Sys/startup_stm32f746xx.s
+obj/release/%.s.o : %.s
 	@$(call mkdir,"$(@D)")
 	@echo $<
 	@$(CC) $(ASFLAGS) -MMD -c $< -o $@
