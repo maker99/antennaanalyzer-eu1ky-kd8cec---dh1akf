@@ -1,5 +1,4 @@
 /*
-/*
  *   (c) Yury Kuchura
  *   kuchura@gmail.com
  *

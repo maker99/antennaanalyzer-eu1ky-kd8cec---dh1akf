@@ -50,3 +50,10 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# other unwanted files
+Src/Inc/build_timestamp.h
+bin/*
+obj/*
+*.orig
+Thumbs.db

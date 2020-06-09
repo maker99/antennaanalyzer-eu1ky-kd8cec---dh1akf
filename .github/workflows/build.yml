@@ -1,0 +1,49 @@
+name: build on testbranch
+# build file using github actions
+# 
+on:
+  push:
+    branches: [ maker99-build_test ]
+#  pull_request:
+#    branches: [ master ]
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    env:
+        GCC: arm-none-eabi-gcc
+        
+    steps:
+    - uses: actions/checkout@v2
+    - uses: fiam/arm-none-eabi-gcc@v1
+      with:
+        # GNU Embedded Toolchain for Arm release name, in the V-YYYY-qZ format (e.g. "9-2019-q4")
+        release: 9-2019-q4
+        
+    - name: show config
+      run: |
+        chmod 755 *.sh
+        ls -al
+      
+    - name: check build environment
+      run: |    
+        pwd
+        ls -al 
+        printenv
+        
+    - name: check arm toolchain
+      run: |
+       $GCC --version
+
+    - name: make it
+      run: |
+        make 
+        ls -al bin/Release
+        
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        # Artifact name
+        name: buildResult # optional
+        # A file, directory or wildcard pattern that describes what to upload
+        path: bin/Release
