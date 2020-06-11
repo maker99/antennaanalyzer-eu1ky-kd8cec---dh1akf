@@ -290,7 +290,7 @@ static void CheckTime(void)
     }
 
     tmpMinute1 = nowTime % 100;
-    sprintf(text1, "%02d:%02d:%02d ", nowTime / 100, nowTime % 100, tmpSecond1);
+    sprintf(text1, "%02lu:%02lu:%02d ", nowTime / 100, nowTime % 100, tmpSecond1);
 
     //CLEAR Area
     LCD_FillRect(LCD_MakePoint(260, INFO_LINE2 + 12),LCD_MakePoint(477, INFO_LINE2 + 42), BACK_COLOR); //LCD_BLACK);
@@ -423,7 +423,7 @@ static void DrawWSInformation(void)
     else
     {
         //Frequency
-        sprintf(str, "%u.%03u.%03u ", freqMhs, freqKhz, freqHz);
+        sprintf(str, "%lu.%03lu.%03lu ", freqMhs, freqKhz, freqHz);
 
         //DISPLAY Result of Measure
         FONT_Write_RightAlign(FONT_BDIGITS, LCD_WHITE, BACK_COLOR, 4, 42, 475, str);

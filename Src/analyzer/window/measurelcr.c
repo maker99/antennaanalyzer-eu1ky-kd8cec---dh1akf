@@ -147,7 +147,7 @@ static void DrawMeasureLC(DSP_RX rx, int findedIndex, uint32_t findedFreq, int i
     sprintf(str, "im: %.4f", im);
     FONT_Write(FONT_FRAN, TextColor, BACK_COLOR, PANEL_LEFT1, 140, str);
 
-    sprintf(str, "Test Freq: %u Hz", findedFreq);
+    sprintf(str, "Test Freq: %lu Hz", findedFreq);
     FONT_Write(FONT_FRAN, TextColor, BACK_COLOR, PANEL_LEFT2, 140, str);
     //findedIndex, uint32_t findedFreq
 

@@ -214,9 +214,9 @@ char str[40] = "";
 
 //    FONT_ClearHalfLine(FONT_FRANBIG, BackGrColor, 62);
     if(VSWR>100.0)
-        sprintf(str, "VSWR: %.0f (Z0 %d)", VSWR, CFG_GetParam(CFG_PARAM_R0));
+        sprintf(str, "VSWR: %.0f (Z0 %lu)", VSWR, CFG_GetParam(CFG_PARAM_R0));
     else
-    sprintf(str, "VSWR: %.1f (Z0 %d)   ", VSWR, CFG_GetParam(CFG_PARAM_R0));
+    sprintf(str, "VSWR: %.1f (Z0 %lu)   ", VSWR, CFG_GetParam(CFG_PARAM_R0));
     FONT_Write(FONT_FRANBIG, TextColor, BackGrColor, 4, 63, str);
 
     if(im>=0){

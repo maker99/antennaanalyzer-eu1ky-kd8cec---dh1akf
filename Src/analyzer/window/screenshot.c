@@ -294,7 +294,7 @@ char* SCREENSHOT_SelectFileName(void)
 
     oldest = fmin;
     dfnum = fmax + 1;
-    sprintf(fname, "%08u", dfnum);
+    sprintf(fname, "%08lu", dfnum);
 
     if(KeyboardWindow(fname, 8, "Enter the file name")==0)
         fname[0]='\0';
@@ -306,11 +306,11 @@ void SCREENSHOT_DeleteOldest(void)
     char path[128];
     if (0xFFFFFFFFul != oldest && numfiles >= 100)
     {
-        sprintf(path, "%s/%08d.s1p", SNDIR, oldest);
+        sprintf(path, "%s/%08lu.s1p", SNDIR, oldest);
         f_unlink(path);
-        sprintf(path, "%s/%08d.bmp", SNDIR, oldest);
+        sprintf(path, "%s/%08lu.bmp", SNDIR, oldest);
         f_unlink(path);
-        sprintf(path, "%s/%08d.png", SNDIR, oldest);
+        sprintf(path, "%s/%08lu.png", SNDIR, oldest);
         f_unlink(path);
         numfiles = 0;
         oldest = 0xFFFFFFFFul;
@@ -334,9 +334,9 @@ short AMPM1;
         date=CFG_GetParam(CFG_PARAM_Date);
     }
     mon=date%10000;
-    sprintf(text, "%04d %02d %02d ", date/10000,mon/100, mon%100);
+    sprintf(text, "%04lu %02lu %02lu ", date/10000,mon/100, mon%100);
     FONT_Write(FONT_FRAN, TextColor, BackGrColor, 100, 252, text);
-    sprintf(text, "%02d:%02d:%02d ", time/100, time%100, second1);
+    sprintf(text, "%02lu:%02lu:%02d ", time/100, time%100, second1);
     FONT_Write(FONT_FRAN, TextColor, BackGrColor, 180, 252, text);
 
 }
@@ -436,7 +436,7 @@ void SCREENSHOT_SavePNG(const char *fname)
     BSP_LCD_DisplayOff();
     uint32_t error = lodepng_encode32(&png, &pngsize, image, LCD_GetWidth(), LCD_GetHeight());
     if (error)
-        CRASHF("lodepng_encode failed: %u ", error);
+        CRASHF("lodepng_encode failed: %lu ", error);
 
     f_mkdir(SNDIR);
     sprintf(path, "%s/%s.png", SNDIR, fname);

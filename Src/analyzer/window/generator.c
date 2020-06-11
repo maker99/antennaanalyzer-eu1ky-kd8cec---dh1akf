@@ -43,7 +43,7 @@ static void ShowF()
 char str[20] = "";
 uint8_t i,j;
     FONT_ClearHalfLine(FONT_FRANBIG, BackGrColor, 72);// WK
-    sprintf(str, "F: %#u MHz", (unsigned int)(CFG_GetParam(CFG_PARAM_GEN_F) ));
+    sprintf(str, "F: %u MHz", (unsigned int)(CFG_GetParam(CFG_PARAM_GEN_F) ));
     for(i=3;i<15;i++){
         if(str[i]==' ') break;// search space before "MHz"
     }

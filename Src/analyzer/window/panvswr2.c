@@ -579,9 +579,9 @@ static void DrawGrid(GRAPHTYPE grType)  //
         fstart = f1;
 
         if (grType == GRAPH_VSWR)
-            sprintf(buf, "VSWR graph: %.3f MHz + %s   (Z0 = %d)", (float)f1/1000000, BSSTR[span], CFG_GetParam(CFG_PARAM_R0));
+            sprintf(buf, "VSWR graph: %.3f MHz + %s   (Z0 = %lu)", (float)f1/1000000, BSSTR[span], CFG_GetParam(CFG_PARAM_R0));
         else if (grType == 3)
-            sprintf(buf, " VSWR/|X| graph: %.3f MHz +%s (Z0 = %d)", (float)f1/1000000, BSSTR[span], CFG_GetParam(CFG_PARAM_R0));
+            sprintf(buf, " VSWR/|X| graph: %.3f MHz +%s (Z0 = %lu)", (float)f1/1000000, BSSTR[span], CFG_GetParam(CFG_PARAM_R0));
         else
             sprintf(buf, " graph: %.3f MHz +%s", (float)f1/1000000, BSSTR[span]);
     }
@@ -590,9 +590,9 @@ static void DrawGrid(GRAPHTYPE grType)  //
         fstart = f1 - 500*BSVALUES[span];
 
         if (grType == GRAPH_VSWR)
-            sprintf(buf, " VSWR graph: %.3f MHz +/- %s (Z0 = %d)", (float)f1/1000000, BSSTR_HALF[span], CFG_GetParam(CFG_PARAM_R0));
+            sprintf(buf, " VSWR graph: %.3f MHz +/- %s (Z0 = %lu)", (float)f1/1000000, BSSTR_HALF[span], CFG_GetParam(CFG_PARAM_R0));
         else if (grType == 3)
-            sprintf(buf, " VSWR/|X| graph: %.3f MHz +/- %s (Z0 = %d)", (float)f1/1000000, BSSTR_HALF[span], CFG_GetParam(CFG_PARAM_R0));
+            sprintf(buf, " VSWR/|X| graph: %.3f MHz +/- %s (Z0 = %lu)", (float)f1/1000000, BSSTR_HALF[span], CFG_GetParam(CFG_PARAM_R0));
         else
             sprintf(buf, " graph: %.3f MHz +/- %s", (float)f1/1000000, BSSTR_HALF[span]);
     }
@@ -1442,9 +1442,9 @@ static void DrawSmith(void)
     LCD_FillAll(BackGrColor);
     FONT_Write(FONT_FRAN, LCD_BLACK, LCD_PURPLE, 1, 0, modstr);
     if (0 == CFG_GetParam(CFG_PARAM_PAN_CENTER_F))
-        sprintf(buf, "Smith chart: %.3f MHz + %s, red pt. is end. Z0 = %d.", (float)f1/1000000, BSSTR[span], CFG_GetParam(CFG_PARAM_R0));
+        sprintf(buf, "Smith chart: %.3f MHz + %s, red pt. is end. Z0 = %lu.", (float)f1/1000000, BSSTR[span], CFG_GetParam(CFG_PARAM_R0));
     else
-        sprintf(buf, "Smith chart: %.3f MHz +/- %s, red pt. is end. Z0 = %d.", (float)f1/1000000, BSSTR_HALF[span], CFG_GetParam(CFG_PARAM_R0));
+        sprintf(buf, "Smith chart: %.3f MHz +/- %s, red pt. is end. Z0 = %lu.", (float)f1/1000000, BSSTR_HALF[span], CFG_GetParam(CFG_PARAM_R0));
     FONT_Write(FONT_FRAN, TextColor, BackGrColor, modstrw + 10, 0, buf);
 
     SMITH_DrawGrid(cx0, cy0, smithradius, WGRIDCOLOR, BackGrColor, SMITH_R50 | SMITH_R25 | SMITH_R10 | SMITH_R100 | SMITH_R200 | SMITH_R500 |
@@ -2030,10 +2030,10 @@ int Scan200(uint8_t line, int index1)
         */
         LCD_FillRect((LCDPoint){XX0+137, YY0 + lineOffset}, (LCDPoint){480, YY0 + 29 + lineOffset}, BackGrColor);
 
-        sprintf(tmpBuff, "%u Ohm", r);
+        sprintf(tmpBuff, "%lu Ohm", r);
         FONT_Write_RightAlign(FONT_FRAN, HIGHLIGHT_TEXT, BackGrColor, 375, 35 + lineOffset, 450, tmpBuff);
 
-        sprintf(tmpBuff, "%d *j Ohm", x);
+        sprintf(tmpBuff, "%lu *j Ohm", x);
         FONT_Write_RightAlign(FONT_FRAN, Color1, BackGrColor, 375, 52 + lineOffset, 450, tmpBuff);
         //FONT_Write(FONT_FRAN, Color1, BackGrColor, 375, 52 + lineOffset, tmpBuff);
 
@@ -2118,10 +2118,10 @@ int ShowFreq(int indx)
 
     LCD_FillRect((LCDPoint){XX0+230, YY0+5 + lineOffset}, (LCDPoint){XX0+288, YY0 + 20 + lineOffset}, BackGrColor);// clear bandwidth
 
-    sprintf(tmpBuff, "%u.%03u", mhz, dp);
+    sprintf(tmpBuff, "%lu.%03lu", mhz, dp);
     FONT_Write_RightAlign(FONT_FRANBIG, TextColor, BackGrColor, 4, YY0 - 10 + lineOffset, 135, tmpBuff);
 
-    sprintf(tmpBuff, "+-%u KHz", bw1/2);
+    sprintf(tmpBuff, "+-%lu KHz", bw1/2);
     //FONT_Print(FONT_FRAN, LCD_RGB(77, 77, 77), 0, 50, YY0 + 15 + lineOffset, "+-%u k", bw1/2);// bandwidth
     FONT_Write_RightAlign(FONT_FRAN, LCD_RGB(77, 77, 77), 0, 4, YY0 + 15 + lineOffset, 135, tmpBuff);
 
@@ -2152,7 +2152,7 @@ void SetFreAndBandByAntennaIndex(uint32_t antIndex)
 {
     //Display Antenna Index
     char tmpBuff[10];
-    sprintf(tmpBuff, "ANT:%d", antIndex + 1);
+    sprintf(tmpBuff, "ANT:%lu", antIndex + 1);
     LCD_FillRect((LCDPoint){380,0}, (LCDPoint){478,29}, BACK_COLOR);
     FONT_Write(FONT_FRANBIG, TextColor, 0, 380, 0, tmpBuff);
 
@@ -3042,9 +3042,9 @@ float Cs,Ls,Q;
     Cp-=C0;
     sprintf(str, "Cp = %.2f  ", 1e12*Cp);
     FONT_Write(FONT_FRANBIG, TextColor, BackGrColor, 200, 140, str);
-    sprintf(str, "Fs = %d  ", Fs);
+    sprintf(str, "Fs = %lu  ", Fs);
     FONT_Write(FONT_FRANBIG, TextColor, BackGrColor, 200, 60, str);
-    sprintf(str, "Fp = %d  ", Fp);
+    sprintf(str, "Fp = %lu  ", Fp);
     FONT_Write(FONT_FRANBIG, TextColor, BackGrColor, 200, 100, str);
 
     Sleep(2000);
@@ -3067,9 +3067,9 @@ float Cs,Ls,Q;
     Cp-=C0;
     LCD_FillAll(BackGrColor);// LCD_BLACK WK
     FONT_Write(FONT_FRANBIG, TextColor, BackGrColor, 150, 20, "Quartz Data ");
-    sprintf(str, "Fs = %d  ", Fs);
+    sprintf(str, "Fs = %lu  ", Fs);
     FONT_Write(FONT_FRANBIG, TextColor, BackGrColor, 20, 60, str);
-    sprintf(str, "Fp = %d  ", Fp);
+    sprintf(str, "Fp = %lu  ", Fp);
     FONT_Write(FONT_FRANBIG, TextColor, BackGrColor, 240, 60, str);
     if(Fs!=0){
         sprintf(str, "Cp = %.2f pF ", 1e12*Cp);

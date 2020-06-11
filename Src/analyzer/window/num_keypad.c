@@ -48,8 +48,8 @@ uint32_t color = LCD_GREEN;
         color = LCD_GREEN;
     else color = LCD_RED;
     if(max_len>4)
-        sprintf(txtbuf, "%08u", value);// date
-    else sprintf(txtbuf, "%04u", value);// time
+        sprintf(txtbuf, "%08lu", value);// date
+    else sprintf(txtbuf, "%04lu", value);// time
     if (value < minvalue || value > maxvalue)
         color = LCD_RED;
     LCD_FillRect((LCDPoint){0,0},(LCDPoint){240,38}, LCD_BLACK);
@@ -68,7 +68,7 @@ char txt[5];
     if(value==0) return 100; // no date
     if ((value<minvalue)||(value>maxvalue)) return 7;
     if(max_len>4){//test , if guilty date
-        sprintf(txtbuf, "%08u", value);// date
+        sprintf(txtbuf, "%08lu", value);// date
         dd=atoi(&txtbuf[6]);
         if((dd==0)||(dd>31)) return 1;// day false
         strncpy(txt,&txtbuf[4],2);// test month 0..12
@@ -95,7 +95,7 @@ char txt[5];
         }
     }
     else{// test of time
-        sprintf(txtbuf, "%04u", value);
+        sprintf(txtbuf, "%04lu", value);
         strncpy(txt,&txtbuf[0],2);//hour
         txt[2]=0;
         hh=atoi(txt);
@@ -207,8 +207,8 @@ uint32_t NumKeypad(uint32_t initial, uint32_t min_value, uint32_t max_value, con
     FONT_Write(FONT_FRANBIG, LCD_WHITE, LCD_BLACK, KBDX0+240, 0, header_text);
 
     CurPos=0;
-    if(initial>2359) sprintf(txtbuf, "%08u", value);
-    else sprintf(txtbuf, "%04u", value);
+    if(initial>2359) sprintf(txtbuf, "%08lu", value);
+    else sprintf(txtbuf, "%04lu", value);
     max_len=strlen(txtbuf)-1;
     Show_value(0);
     TEXTBOX_CTX_t keybd_ctx;
