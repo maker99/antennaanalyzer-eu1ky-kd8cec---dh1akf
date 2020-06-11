@@ -352,7 +352,7 @@ int dd,mm,yyyy,hh,mi;
 char txt[10], txt1[5];
 
     if((date<=19800101)||(date>20803112))return 7;
-    sprintf(txt, "%08u", date);// date
+    sprintf(txt, "%08lu", date);// date
     dd=atoi(&txt[6]);
     if((dd==0)||(dd>31)) return 1;// day false
     strncpy(txt1,&txt[4],2);// test month 0..12
@@ -424,10 +424,10 @@ char text1[20];
         date=CFG_GetParam(CFG_PARAM_Date);
     }
     mon=date%10000;
-    sprintf(text1, "%04d %02d %02d  ", date/10000,mon / 100, mon % 100);
+    sprintf(text1, "%04lu %02lu %02lu  ", date/10000,mon / 100, mon % 100);
     FONT_Write(FONT_FRAN, CurvColor, LCD_RGB(64, 64, 64), 220, 257, text1);
 
-    sprintf(text1, "%02d:%02d:%02d ", time/100, time % 100, second1);
+    sprintf(text1, "%02lu:%02lu:%02d ", time/100, time % 100, second1);
 
     FONT_Write(FONT_FRAN, CurvColor, LCD_RGB(64, 64, 64), 305, 257, text1);
 }
@@ -1025,9 +1025,9 @@ int k;
         else{
             time=GetInternTime(&second);
         }
-        sprintf(txt, "Time: %04d : %02d ",time, second);
+        sprintf(txt, "Time: %04lu : %02d ",time, second);
         FONT_Write(FONT_FRANBIG, TextColor, BackGrColor, 240, 80, txt);
-        sprintf(txt, "Date: %08d ",date);
+        sprintf(txt, "Date: %08lu ",date);
         FONT_Write(FONT_FRANBIG, TextColor, BackGrColor, 240, 120, txt);
         Sleep(1000);
     }
@@ -1108,7 +1108,7 @@ unsigned char liney;
     }
     for(fhz1=f_begin;fhz1<=f_stop; fhz1+=step){
         GEN_SetMeasurementFreq(fhz1);
-        sprintf(str1, "Fosc : %d MHz", fhz1/1000000);
+        sprintf(str1, "Fosc : %lu MHz", fhz1/1000000);
         FONT_Write(FONT_FRANBIG, CurvColor, BackGrColor, 0, liney, str1);
         Sleep(20);
         DSP_Measure2();
@@ -1183,7 +1183,7 @@ uint32_t fmax1,fmax2,fmax3,k;
         }
     }
     f5=5*fmax;
-    sprintf(str1, "FMAX(S15351) %d MHz, MAX_FREQ %d MHz", fmax/1000000, f5/1000000);
+    sprintf(str1, "FMAX(S15351) %lu MHz, MAX_FREQ %lu MHz", fmax/1000000, f5/1000000);
     FONT_Write(FONT_FRAN, CurvColor, BackGrColor, 0, 140, str1);
     Sleep(1000);
 
