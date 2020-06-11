@@ -52,8 +52,9 @@ Mkfile.old
 dkms.conf
 
 # other unwanted files
-Src/Inc/build_timestamp.h
-bin/*
-obj/*
+*build_timestamp.h
+*.bin
+bin/*/*
+obj/*/*
 *.orig
 Thumbs.db
