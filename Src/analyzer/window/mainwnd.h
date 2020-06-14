@@ -13,10 +13,10 @@
 #include "main.h"
 
 void MainWnd(void);
-static char    fileNames[13][13];
-static uint16_t  FileNo;
+// static char    fileNames[13][13];  // unused in mainwnd
+// extern uint16_t  FileNo;           // unused 
 volatile int   Page;
-static uint32_t date, time;
+// static uint32_t date, time; // unused
 uint32_t RTCpresent;
 volatile int NoDate;
 ADC_HandleTypeDef Adc3Handle;

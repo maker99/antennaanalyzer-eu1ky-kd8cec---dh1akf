@@ -33,7 +33,7 @@ static uint32_t fx = 14000000ul; //start frequency, in Hz
 static uint32_t fxkHz;//frequency, in kHz
 static BANDSPAN *pBs1;
 static LCDPoint pt;
-static uint16_t Old_TimeFlag;
+// static uint16_t Old_TimeFlag; // unused
 static bool mod_AM, mod_FM ;
 
 void Sleep(uint32_t ms);
@@ -320,7 +320,7 @@ int testGen(void){
 
 void GENERATOR_Window_Proc(void)
 {
-uint32_t activeLayer, f0;
+// uint32_t activeLayer, f0; // unused
 int k, SignalGood;
 uint32_t speedcnt = 0;
 

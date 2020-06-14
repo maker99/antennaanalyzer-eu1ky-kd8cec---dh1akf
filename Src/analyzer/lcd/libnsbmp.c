@@ -352,7 +352,7 @@ static bmp_result bmp_analyse_header(bmp_image *bmp, uint8_t *data)
 {
     uint32_t header_size;
     uint32_t i;
-    uint8_t j,k;
+    uint8_t j; //,k;; // unused
     int32_t width, height;
     uint8_t palette_size;
     unsigned int flags = 0;

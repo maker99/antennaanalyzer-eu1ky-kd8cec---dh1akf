@@ -13,7 +13,7 @@
 #include <complex.h>
 #include <limits.h>
 
-static float complex lastg = 2.f + 0.fi;
+// static float complex lastg = 2.f + 0.fi;; // unused
 static int32_t centerx = -1;
 static int32_t centery = -1;
 static int32_t lastradius = -1;

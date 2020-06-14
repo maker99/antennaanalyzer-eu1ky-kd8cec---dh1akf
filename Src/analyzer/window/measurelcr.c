@@ -49,11 +49,11 @@ extern void Sleep(uint32_t ms);
 //==============================================================================
 
 static uint8_t isMatch = 0;
-static uint32_t meas_maxstep = 500000;
+// static uint32_t meas_maxstep = 500000; // unused
 
 void OSL_CorrectLC(int freqIdx, float *phdif);
 extern float GetLCCal(int freqIdx);
-static float MeasMagDif;
+// static float MeasMagDif; // unused
 
 
 extern int32_t OSL_IsLCCorrLoaded(void);
@@ -106,25 +106,30 @@ static void DrawMeasureLC(DSP_RX rx, int findedIndex, uint32_t findedFreq, int i
 
     float r= fabsf(crealf(rx));
     float im= cimagf(rx);
-    float rp,xp,Cppf,Lpuh;
-    if(r >0.05 ) rp=r+im*(im/r); else rp=10000.0;
-    if(im*im>0.0025) xp=im+r*(r/im); else im=10000.0;
-    /*
-    if(parallel==1){
-        r=rp;
-        im=xp;
-    }
-    */
+    // float rp,xp;; // unused
+    // float Cppf,Lpuh; // unused
+    // // Todo: check the following code, why is rp and xp calculated twice, 
+    // //        why are these values never used
+    // //        why is im set to 10000 if im*im less than 0.0025?
+    // if(r >0.05 ) rp=r+im*(im/r); else rp=10000.0;
+    // if(im*im>0.0025) xp=im+r*(r/im); else im=10000.0;
+    // /*
+    // if(parallel==1){
+    //     r=rp;
+    //     im=xp;
+    // }
+    // */
 
-    if(r > 0.05)
-        rp = r + im * (im / r);
-    else
-        rp=10000.0;
+    // if(r > 0.05)
+    //     rp = r + im * (im / r);
+    // else
+    //     rp=10000.0;
 
-    if(im * im > 0.0025)
-        xp = im + r * (r/im);
-    else
-        im=10000.0;
+    // if(im * im > 0.0025)
+    //     xp = im + r * (r/im);
+    // else
+    //     im=10000.0;
+    // // Todo: fix this, ^^^^^^^^^^^^^
 
     //Clear Screen
     //LCD_FillRect(LCD_MakePoint(1, 62),LCD_MakePoint(260, 151),BACK_COLOR);
@@ -140,8 +145,9 @@ static void DrawMeasureLC(DSP_RX rx, int findedIndex, uint32_t findedFreq, int i
     sprintf(str, "Frequency: %.1f MHz", GetLCStepFreq(CFG_GetParam(CFG_PARAM_LC_INDEX)) / (float)1000000 );
     FONT_Write(FONT_FRAN, TextColor, BACK_COLOR, PANEL_LEFT2, 100, str);
 
-    MeasMagDif = DSP_MeasuredDiffdB();
-    sprintf(str, "Magnitude diff %.2f dB ", MeasMagDif);
+    // MeasMagDif = DSP_MeasuredDiffdB();  // Todo: get this fixed, we dont need this var, unused
+    // sprintf(str, "Magnitude diff %.2f dB ", MeasMagDif);  // unused
+    sprintf(str, "Magnitude diff %.2f dB ", DSP_MeasuredDiffdB());
     FONT_Write(FONT_FRAN, TextColor, BACK_COLOR, PANEL_LEFT1, 120, str);
 
     sprintf(str, "im: %.4f", im);
@@ -312,7 +318,7 @@ static void DisplayCalInfo()
 
 //static uint32_t fx = 14000000ul; //Scan range start frequency, in Hz
 //static uint32_t fxkHz;//Scan range start frequency, in kHz
-static BANDSPAN pBs1;
+// static BANDSPAN pBs1; // unused
 
 static void MEASUREMENT_Screenshot(void)
 {
@@ -451,15 +457,16 @@ void Measure_LCR_Proc(void)
 {
     //float MeasureIM[100] = {0}; //Max 10Mhz per 1 Step
     //uint32_t MeasureFreq[100] = {0};
-    int i, l, j=0;
+    // int l, j=0; // unused
+    int i;
 
     int firstDraw = 1;
 
     DSP_RX rx;
     LCDPoint pt;
 
-    int checkCount = 0;     //Check Measure Interval
-    int NowMesaureIndex = 0;
+    // int checkCount = 0;     //Check Measure Interval  // unused
+    int NowMeasureIndex = 0;
     uint32_t NowMeasureFreq = MeasureStartFreq;
 
     MeasureIM = (float *)malloc(sizeof(float) * 55); //Max 10Mhz per 1 Step
@@ -629,7 +636,7 @@ void Measure_LCR_Proc(void)
             {
                 MeasureStartFreq = GetLCStepFreq(CFG_GetParam(CFG_PARAM_LC_INDEX));
                 MeasureEndFreq = GetLCStepFreq(CFG_GetParam(CFG_PARAM_LC_INDEX) + 1);
-                NowMesaureIndex = 0;
+                NowMeasureIndex = 0;
                 NowMeasureFreq = MeasureStartFreq;
 
 
@@ -659,26 +666,28 @@ void Measure_LCR_Proc(void)
         }
 
         //Calculate im
-        float r= fabsf(crealf(rx));
+        // float r= fabsf(crealf(rx));; // unused
         float im= cimagf(rx);
-        float rp,xp,Cppf,Lpuh;
-        if(r >0.05 ) rp=r+im*(im/r); else rp=10000.0;
-        if(im*im>0.0025) xp=im+r*(r/im); else im=10000.0;
+        // float Cppf,Lpuh; // unused
+        // float xp,rp; // unused
+        // // TODO: why this code?
+        // if(r >0.05 ) rp=r+im*(im/r); else rp=10000.0;
+        // if(im*im>0.0025) xp=im+r*(r/im); else im=10000.0;
 
-        if(r > 0.05)
-            rp = r + im * (im / r);
-        else
-            rp=10000.0;
+        // if(r > 0.05)
+        //     rp = r + im * (im / r);
+        // else
+        //     rp=10000.0;
 
-        if(im * im > 0.0025)
-            xp = im + r * (r/im);
-        else
-            im=10000.0;
+        // if(im * im > 0.0025)
+        //     xp = im + r * (r/im);
+        // else
+        //     im=10000.0;
+        // // TODO: end
+        MeasureIM[NowMeasureIndex] = im;
+        MeasureFreq[NowMeasureIndex] = NowMeasureFreq;
 
-        MeasureIM[NowMesaureIndex] = im;
-        MeasureFreq[NowMesaureIndex] = NowMeasureFreq;
-
-        NowMesaureIndex++;
+        NowMeasureIndex++;
         NowMeasureFreq += LC_OSL_SCAN_STEP;
 
         float qualityValue = 0.0;
@@ -691,14 +700,14 @@ void Measure_LCR_Proc(void)
             int findedIndex = 0;    //default Value is 0
             int validCount = 0;
             int validStartIndex = -1;
-            int validEndIndex = 0;
+            // int validEndIndex = 0; // unused
 
 #define VALID_FIELD_MIN_NUMBER 10   //for noise
             if (LC_Mode == 0)
             {
                 //Case L
                 //Found valid value and Index
-                for (i = NowMesaureIndex - 1; i >= 0; i--)
+                for (i = NowMeasureIndex - 1; i >= 0; i--)
                 {
                     im = MeasureIM[i];
 
@@ -751,13 +760,13 @@ void Measure_LCR_Proc(void)
                 //Case L
                 //Found valid value and Index
 
-                for (i = 0; i < NowMesaureIndex; i++)
+                for (i = 0; i < NowMeasureIndex; i++)
                 {
                     im = MeasureIM[i];
 
                     //not valid or last check row
                     //if ((im < -1.0) && (im > -5000.0f))
-                    if((im >= -1.0) || (im < -5000.0f) || i == NowMesaureIndex -1)
+                    if((im >= -1.0) || (im < -5000.0f) || i == NowMeasureIndex -1)
                     {
                         if (validCount > VALID_FIELD_MIN_NUMBER)    //Valid
                         {
@@ -799,7 +808,7 @@ void Measure_LCR_Proc(void)
             }
 
             //Init
-            NowMesaureIndex = 0;
+            NowMeasureIndex = 0;
             NowMeasureFreq = MeasureStartFreq;;
 
             //Re Measure

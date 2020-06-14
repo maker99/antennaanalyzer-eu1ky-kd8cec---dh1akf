@@ -1,7 +1,6 @@
-#ifndef BUILD_TIMESTAMP 
-#warning Mercurial failed. Repository not found. Firmware revision will not be generated. 
-#define HGREV N/A 
-#define BUILD_TIMESTAMP "2020-03-22 15:45 UT"
-#define HGREVSTR(s) stringify_(s) 
-#define stringify_(s) #s 
-#endif 
+#ifndef BUILD_TIMESTAMP
+#define HGREV "330dfc53"
+#define BUILD_TIMESTAMP "2020-06-14 12:47 UT"
+#define HGREVSTR(s) stringify_(s)
+#define stringify_(s) #s
+#endif

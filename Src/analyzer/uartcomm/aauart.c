@@ -29,7 +29,7 @@ static volatile uint32_t txctr = 0;
 //KD8CEC ROUTINE for Debug
 //==================================================================
 static UART_HandleTypeDef DBGUartHandle = {0};
-static FIFO_Descr DBGrxfifo;
+// static FIFO_Descr DBGrxfifo; // unused
 
 static uint8_t DBG_ACTIVE = 0;
 

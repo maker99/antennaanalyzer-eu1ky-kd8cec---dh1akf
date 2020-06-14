@@ -468,9 +468,9 @@ REMEASURE:
 //if requested. Note that clock source remains turned on after the measurement!
 void DSP_MeasureTrack(uint32_t freqHz, int applyErrCorr, int applyOSL, int nMeasurements)
 {
-    float mag_v = 0.0f;
+    // float mag_v = 0.0f;; // unused
     float mag_i = 0.0f;
-    float pdif = 0.0f;
+    // float pdif = 0.0f;; // unused
     float complex res_v, res_i;
     int i;
     int retries = 3;
@@ -591,7 +591,7 @@ void DSP_MeasureLC(uint32_t freqHz, int applyErrCorr, int applyOSL, int nMeasure
         GEN_SetMeasurementFreq(freqHz);
     }
 
-    float orgpdif = 0;
+    // float orgpdif = 0;; // unused
 
 REMEASURE:
     for (i = 0; i < nMeasurements; i++)
@@ -607,7 +607,7 @@ REMEASURE:
 
         //Correct phase difference quadrant
         pdif = fmodf(pdif + M_PI, 2 * M_PI) - M_PI;
-        float orgpdif = pdif;
+        // float orgpdif = pdif;; // unused
 
         if (pdif < -M_PI)
             pdif += 2 * M_PI;

@@ -50,9 +50,10 @@ int SpectrumExec(int graph);
 #define FieldH 36
 
 static const uint32_t Scale_Factors[]={10,8,10,10,8,10,10,8,10,10,8,10,10,8,10,10};
-static int16_t maxMag;
-static int16_t mag;
-static int m, AreaSelected, cycl3;
+// static int16_t maxMag; // unused
+// static int16_t mag; // unused
+// static int m; // unused
+static int AreaSelected, cycl3;
 static unsigned long upper, lower;
 static BANDSPAN span;
 static int selector, sExit;
@@ -61,7 +62,7 @@ static LCDPoint pt;
 static int FreqFound;
 static uint32_t f1;// kHz
 static unsigned long actFreq;
-static uint32_t  power00;
+// static uint32_t  power00; // unused
 static float SumVal;
 
 
@@ -208,9 +209,10 @@ int res;
 }
 
 int ScanFull(void){
-int k, res;
-unsigned long fx1;
-int binx1;
+// int k; // unused
+int res;
+// unsigned long fx1; // unused
+// int binx1; // unused
     LCD_FillRect((LCDPoint){132 ,100},(LCDPoint){479,190},BackGrColor);
 
     found=0;
@@ -254,7 +256,8 @@ void Full(void){
 }
 
 int OneBand(void){
-int band, ret;
+// int band; // unused
+int ret;
 
     if(sScan_Meas==1) return 0;
     LCD_FillRect((LCDPoint){132 ,100},(LCDPoint){479,190},BackGrColor);
@@ -364,7 +367,7 @@ void SCExit(void){
 }
 
 void freq(void){
-int band;
+// int band; // unused
     while(TOUCH_IsPressed());
     Sleep(100);
     if(span>15) span=15;// (max. 4 MHz)
@@ -482,21 +485,24 @@ int y,h;
 
 int SpectrumExec(int graph){
 
-float sum1, flabel, Scalefact,Scalefact1,MaxiMag,steps,MaxMag0,MaxMag1,MaxMag2, Faktor, Faktor1, testFreq, fraction;
-int AggregatedPoints,x,lastX,y,l,h,w,k, x0, delta, n, KeyBreaker, case1, UpSb;
-int found=0, yofs, LastX, pos;
-uint32_t power, t;
-unsigned long FLow;
+// float Scalefact,Scalefact1, Faktor1; // unused
+float sum1, flabel, MaxiMag,steps,MaxMag0,MaxMag1,MaxMag2, Faktor, testFreq, fraction;
+// int lastX,y,h,x0, KeyBreaker, case1, UpSb; // unused
+int AggregatedPoints,x,l,w,k, delta, n;
+// int found=0, pos;, case1, UpSb
+int yofs, LastX;
+// uint32_t power, t;, case1, UpSb
+// unsigned long FLow; // unused
 char s[20];
 char f[25];
 int MaxiBin, binMax0, binMax1, binMax2, linediv, lmod;
 unsigned long MaxiFreq, fmaxSIhz = CFG_GetParam(CFG_PARAM_SI5351_MAX_FREQ);
 
-    KeyBreaker=0;
+    // KeyBreaker=0; // unused
     Maxmag=0.0;
     MaxiMag=0.0;
     Average=0.0;
-    h=LCD_GetHeight();
+    // h=LCD_GetHeight(); // unused
     LastX=LCD_GetWidth()+1;
     steps=(upper-lower)/17500.0f;// in 17.5 kHz steps
     if(graph==1){
@@ -511,7 +517,7 @@ unsigned long MaxiFreq, fmaxSIhz = CFG_GetParam(CFG_PARAM_SI5351_MAX_FREQ);
         k=linediv*lmod;
     }
     else k=450;
-    Faktor1=steps*94/k;
+    // Faktor1=steps*94/k; // unused
     Faktor=(float)((float)k/(upper-lower));
     AggregatedPoints=(steps+225)/k;// number of measures, aggregated to 1 point (rounded)
     if(AggregatedPoints<=1) AggregatedPoints=1;
@@ -778,7 +784,7 @@ unsigned long MaxiFreq, fmaxSIhz = CFG_GetParam(CFG_PARAM_SI5351_MAX_FREQ);
 
 
 void Spectrum(void){
-int band;
+// int band; // unused
 
     while(TOUCH_IsPressed());
     Sleep(100);

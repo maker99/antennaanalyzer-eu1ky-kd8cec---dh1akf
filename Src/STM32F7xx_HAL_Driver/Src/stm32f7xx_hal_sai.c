@@ -839,7 +839,7 @@ HAL_StatusTypeDef HAL_SAI_Receive(SAI_HandleTypeDef *hsai, uint8_t *pData, uint1
 
 HAL_StatusTypeDef HAL_SAI_ReceiveSimple(SAI_HandleTypeDef *hsai, uint8_t *pData, uint16_t Size, uint32_t Timeout)
 {
-  uint32_t tickstart = HAL_GetTick();
+  // uint32_t tickstart = HAL_GetTick(); // unused
 
     /* Process Locked */
     //__HAL_LOCK(hsai);

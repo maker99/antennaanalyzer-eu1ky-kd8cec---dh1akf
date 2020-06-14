@@ -217,7 +217,7 @@ void HS_CalcPLLParam(unsigned long cPartValue,unsigned long targetFrequency, uns
   byte TX_a;                                   // "a" part of Feedback-Multiplier from XTAL to PLL in range [15,90]
   unsigned long TX_b;                          // "b" part of Feedback-Multiplier from XTAL to PLL
   float TX_f;                                  // floating variable, needed in calculation
-  unsigned long MS0_P1;                        // Si5351a Output Divider register MS0_P1, P2 and P3 are hardcoded below
+  // unsigned long MS0_P1;  ; // unused                      // Si5351a Output Divider register MS0_P1, P2 and P3 are hardcoded below
 
   TX_outdivider = 900000000 / targetFrequency;    // With 900 MHz beeing the maximum internal PLL-Frequency
 
@@ -246,7 +246,7 @@ void HS_CalcPLLParam(unsigned long cPartValue,unsigned long targetFrequency, uns
   TX_f = TX_f / _hs_xtal_freq;
   TX_b = TX_f;
 
-  MS0_P1 = 128 * TX_outdivider - 512;     // Calculation of Output Divider registers MS0_P1 to MS0_P3
+  // MS0_P1 = 128 * TX_outdivider - 512;   ; // unused  // Calculation of Output Divider registers MS0_P1 to MS0_P3
                                           // MS0_P2 = 0 and MS0_P3 = 1; these values are hardcoded, see below
 
   TX_f = 128 * TX_b / cPartValue;         // Calculation of Feedback Multisynth registers MSNB_P1 to MSNB_P3

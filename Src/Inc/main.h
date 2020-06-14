@@ -56,6 +56,7 @@
 #endif /* __MAIN_H */
 void Sleep(uint32_t nms);
 volatile uint32_t secondsCounter;
-static uint8_t second;
+//static uint8_t second;
+extern uint8_t second;
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

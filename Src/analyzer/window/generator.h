@@ -9,7 +9,7 @@
 #define GENERATOR_H_
 
 void GENERATOR_Window_Proc(void);
-static void ShowF(void);
+// static void ShowF(void);     //unused, is an internal function
 int testGen(void);
 
 #endif

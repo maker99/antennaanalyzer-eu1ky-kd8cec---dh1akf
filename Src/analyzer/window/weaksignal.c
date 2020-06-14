@@ -487,7 +487,7 @@ static void DrawWSInformation(void)
 uint8_t isContinuousTX = 0;
 
 void wsMenuDraw(void){
-    uint32_t LCSaveColor = TextColor;
+    // uint32_t LCSaveColor = TextColor; // unused
 
     //Bottom Menu
     LCD_DrawBitmap(LCD_MakePoint(wsMenus[MENU_EXIT  ][BUTTON_LEFT], wsMenus[MENU_EXIT  ][BUTTON_TOP]), imgbtn_home2, imgbtn_home2_size);
@@ -739,7 +739,7 @@ HS_SetPower(uint8_t clkNum, uint8_t txPower, uint8_t isApply)
     if (*nowBandIndex == BAND_MAX_INDEX)
     {
         //Via Transceiver using Audio Chip
-        uint32_t fore_freq_color = LCD_RED;
+        // uint32_t fore_freq_color = LCD_RED; // unused
         //Display Inforamtion for Via Transceiver Mode
         if (*nowPR == PR_WSPR)
         {

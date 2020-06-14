@@ -81,7 +81,7 @@ void getTime(uint32_t *rtctime, unsigned char *second, short *AMPM, short hour_f
 
 void getDate(uint32_t *date)
 {
-uint8_t p1,p2,p3,p4;
+uint8_t p1,p2,p3;//,p4;
 uint32_t date1;
 
          //p1 = DS3231_Read(yearREG);
@@ -91,7 +91,7 @@ uint32_t date1;
          p3 = (0x3F & DS3231_Read(dateREG));
          p3 = bcd_to_decimal(0x3F & DS3231_Read(dateREG));
          //p4 = (0x07 & DS3231_Read(dayREG));
-         p4 = bcd_to_decimal(0x07 & DS3231_Read(dayREG));// day of week
+       //   p4 = bcd_to_decimal(0x07 & DS3231_Read(dayREG));// day of week
          if(p1>=80) date1=19000000;// max year = 2079
          else       date1=20000000;
          *date=date1+10000*p1+100*p2+p3;

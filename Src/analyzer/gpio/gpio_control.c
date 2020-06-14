@@ -91,7 +91,7 @@ void GPIO_CWTX_Setup(void)
 
     void GPIO_CWPaddle_Setup(void)
     {
-        GPIO_InitTypeDef gpioInitStructure;
+        // GPIO_InitTypeDef gpioInitStructure;; // unused
 
         GPIO_InitTypeDef gpioIn;
         __HAL_RCC_GPIOG_CLK_ENABLE();

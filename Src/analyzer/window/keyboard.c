@@ -213,7 +213,7 @@ static const TEXTBOX_t tb_keybal[] = {
 
 uint32_t KeyboardWindow(char* buffer, uint32_t max_len, const char* header_text)
 {
-uint32_t CursorPosition;
+// uint32_t CursorPosition; // unused
     LCD_Push(); //Store current LCD bitmap
     LCD_FillAll(LCD_BLACK);
 

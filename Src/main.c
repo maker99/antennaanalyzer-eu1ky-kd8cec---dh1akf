@@ -73,7 +73,8 @@ void ADC3_Init(void){
 }
 
 static uint32_t date1, time1;
-static uint8_t second, second1;
+uint8_t second;          // also used in mainwnd.c
+static uint8_t second1;
 static short AMPM,AMPM1;
 extern int BeepIsActive, SWRTone;
 extern uint8_t AUDIO1;

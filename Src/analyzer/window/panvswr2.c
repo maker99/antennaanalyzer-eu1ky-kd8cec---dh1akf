@@ -68,7 +68,7 @@
 #define SMOOTHWINDOW_HI 7 //Must be odd!
 #define SMOOTHOFS_HI (SMOOTHWINDOW_HI/2)
 #define SM_INTENSITY 64
-extern uint8_t rqDel;
+// extern uint8_t rqDel;   //unused
 extern void ShowF(void);
 extern void TRACK_Beep(int duration);
 void  DrawFootText(void);
@@ -163,7 +163,7 @@ extern volatile uint32_t autosleep_timer;
 static void DrawRX();
 static void DrawSmith();
 static float complex SmoothRX(int idx, int useHighSmooth);
-static TEXTBOX_t SWR_ctx;
+// static TEXTBOX_t SWR_ctx; // unused
 static TEXTBOX_CTX_t SWR1;
 
 void SWR_Exit(void);
@@ -187,8 +187,8 @@ static int Switch;
 static int isM1Loaded, isM2Loaded, isM3Loaded;
 
 static uint32_t Saving;
-static int32_t FreqkHz;
-static int32_t k;
+static uint32_t FreqkHz;
+// static int32_t k; // unused
 
 #define MEMMODE_LOAD  0
 #define MEMMODE_STORE 1
@@ -772,7 +772,7 @@ static float Cp, Rs;
 
 static void ScanRX(int selector)
 {
-    char str[15];
+    // char str[15]; // unused
     float complex rx, rx0;
     float newX, oldX, MaxX, absX;
     uint32_t i, k, sel, imax;
@@ -812,7 +812,7 @@ static void ScanRX(int selector)
     sel=0;
     k = CFG_GetParam(CFG_PARAM_PAN_NSCANS);
 
-    int beforeDispTag = -1;
+    // int beforeDispTag = -1; // unused
     int newDispTag = 0;
     for(i = 0; i <= WWIDTH; i++)
     {
@@ -938,7 +938,8 @@ static void DrawVSWR(void)
     int lastoffset_sm = 0;
     int i, x;
     float swr_float, swr_float_sm;
-    int offset_log, offset_log_sm;
+    // int offset_log_sm; // unused
+    int offset_log;
     int offset;
     int offset_sm;
     for(i = 0; i <= WWIDTH; i++)
@@ -1148,7 +1149,7 @@ static void DrawS11()
 
     //Draw horizontal lines and labels
     int yofs = 0;
-    int yofs_sm = 0;
+    // int yofs_sm = 0; // unused
     float labelValue;
 
 #define S11OFFS(s11) ((int)roundf(((s11 - graphmin) * WHEIGHT) / grange) + 1)
@@ -1168,7 +1169,7 @@ static void DrawS11()
     FONT_Write(FONT_FRANBIG, TextColor, BackGrColor, X0 +410, Y0+26, "1 ");
     FONT_Write(FONT_FRANBIG, TextColor, BackGrColor, X0 +410, Y0+52, "1 ");
     uint16_t lasty = 0;
-    int MaxJ, maxY=0;
+    int MaxJ=0, maxY=0;
     for(j = 0; j <= WWIDTH; j++)
     {
         int offset = roundf((WHEIGHT / (-graphmin)) * S11Calc(DSP_CalcVSWR(values[j])));
@@ -1208,7 +1209,7 @@ float range_i = nicenum(MaxZ - MinZ, 0);
     d = nicenum(range_i / (nticks - 1), 1);
     float graphmin_i = floorf(MinZ / d) * d;
     float graphmax_i = MaxZ*0.95;//ceilf(MaxZ / d) * d;
-    float grange_i = graphmax_i - graphmin_i;
+    // float grange_i = graphmax_i - graphmin_i; // unused
     float nfrac_i = MAX(-floorf(log10f(d)), 0);  // # of fractional digits to show
 
     if (nfrac_i > 3) nfrac_i = 3;
@@ -1236,7 +1237,8 @@ static void DrawRX(int SelQu, int SelEqu)// SelQu=1, if quartz measurement  SelE
 {
 #define LimitR 1999.f
     float LimitX;
-    int i, imax;
+    // int imax; // unused
+    int i;
     int x, RXX0;
     if (!isMeasured)
         return;
@@ -1262,8 +1264,8 @@ static void DrawRX(int SelQu, int SelEqu)// SelQu=1, if quartz measurement  SelE
             maxRXr = crealf(values[i]);
         if (cimagf(values[i]) > maxRXi){
             maxRXi = cimagf(values[i]);
-            if(cimagf(values[i+1])<=maxRXi)
-                imax=i;
+            // if(cimagf(values[i+1])<=maxRXi)
+                // imax=i; // unused
         }
     }
 
@@ -1459,13 +1461,13 @@ static void DrawSmith(void)
     //Draw measured data
     if (isMeasured)
     {
-        uint32_t lastx = 0;
-        uint32_t lasty = 0;
+        // uint32_t lastx = 0; // unused
+        // uint32_t lasty = 0; // unused
         for(i = 0; i <= WWIDTH; i++)
         {
             float complex g = OSL_GFromZ(values[i], r0f);
-            lastx = (uint32_t)roundf(cx0 + crealf(g) * smithradius);
-            lasty = (uint32_t)roundf(cy0 - cimagf(g) * smithradius);
+            // lastx = (uint32_t)roundf(cx0 + crealf(g) * smithradius); // unused
+            // lasty = (uint32_t)roundf(cy0 - cimagf(g) * smithradius); // unused
             SMITH_DrawG(i, g, CurvColor);
         }
         //Mark the end of sweep range with red cross
@@ -1777,11 +1779,11 @@ static uint32_t freqChg;
 
 void Tune_SWR_Proc(void){// -----------------------------------------------------------------------
 
-    GPIO_PinState OUTGpio;
+    // GPIO_PinState OUTGpio; // unused
     char str[20];
-    float vswrf, vswLogf, vswrf_old, SwrDiff;
-    uint32_t width, vswLog=0, Timer;
-    uint32_t color1, vswr10, vsw_old, k=0;
+    float vswrf, vswLogf, vswrf_old=0.0, SwrDiff;
+    uint32_t width; // unused  vswLog=0, Timer;
+    uint32_t color1, vswr10, k=0; // unused  vsw_old,
     TEXTBOX_CTX_t SWR1_ctx;
 
     Tone=1;//tone on
@@ -2238,10 +2240,10 @@ static void save_MultiSwrSnapShot(void)
 
 
 void MultiSWR_Proc(void){// WK ******************************************************************************
-    int redrawRequired = 0;
+    // int redrawRequired = 0; // unused
     int touch;
     int fx;// in kHz
-    uint32_t activeLayer;
+    // uint32_t activeLayer; // unused
     int i,j;
 
     while(TOUCH_IsPressed());
@@ -2501,7 +2503,7 @@ void Switch_Menu(void){// Button 1
 }
 
 void Store(void){//             Button 2
-    int k;
+    // int k; // unused
     autofast=0;
 
     if(Switch==0)
@@ -2527,7 +2529,7 @@ void Store(void){//             Button 2
 }
 
 void DiagType(void){//                      Button3
-int k;
+// int k; // unused
     autofast=0;
     // toggle Diagram Type
     if (grType == GRAPH_VSWR)
@@ -3019,7 +3021,7 @@ void QuCalibrate(void){
 }
 
 void QuMeasure(void){
-int i;
+// int i; // unused
 char str[10];
 float Cs,Ls,Q;
 
@@ -3098,8 +3100,8 @@ float Cs,Ls,Q;
 }
 
 void Quartz_proc(void){
-    char str[20];
-    uint32_t width, vswLog=0;
+    // char str[20]; // unused
+    // uint32_t width, vswLog=0; // unused
     uint32_t k;
 
     if(span==0) span=BS1000;// +- 500 kHz

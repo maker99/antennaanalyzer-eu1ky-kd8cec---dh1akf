@@ -108,7 +108,7 @@ char txt[5];
 
 static void KeybHitCb(const TEXTBOX_t* tb) {
 uint32_t k;
-uint8_t i;
+// uint8_t i;   //unused
 
     save=value;
     digit = tb->text[0] - '0';
@@ -136,7 +136,7 @@ static void KeybHitRightCb(void)
 
 static void KeybHitOKCb(void)
 {
-uint8_t k;
+// uint8_t k;   // unused
 long val;
 char* ptr;
 
@@ -230,7 +230,7 @@ uint32_t NumKeypad(uint32_t initial, uint32_t min_value, uint32_t max_value, con
     }
 
     while(TOUCH_IsPressed());
-        Sleep(0);
+    //    Sleep(0);
 
     return result;
 }

@@ -38,6 +38,8 @@ static const TCHAR *SNDIR = "/aa/snapshot";
 static uint32_t oldest = 0xFFFFFFFFul;
 static uint32_t numfiles = 0;
 
+uint32_t date, time;  // from mainwnd.h
+
 uint8_t __attribute__((section (".user_sdram"))) __attribute__((used)) bmpFileBufferTMP[SCREENSHOT_FILE_SIZE];  //for prevent error, buffer
 uint8_t __attribute__((section (".user_sdram"))) __attribute__((used)) bmpFileBuffer[SCREENSHOT_FILE_SIZE];
 
@@ -93,12 +95,13 @@ int32_t ShowLogo(void){
 
 uint32_t br = 0;
 unsigned w,h, result1;
-int i, type=0;
+// int i; // unused
+int type=0;
 FRESULT res;
 FIL fo = { 0 };
-FILINFO finfo;
-DIR dir = { 0 };
-FILINFO fno = { 0 };
+// FILINFO finfo; // unused
+// DIR dir = { 0 }; // unused
+// FILINFO fno = { 0 }; // unused
 uint8_t* OutBuf=0;
 
     res = f_open(&fo, g_logo_fpath1, FA_READ);
@@ -155,7 +158,7 @@ uint8_t* OutBuf=0;
 
 extern volatile int  Page;
 extern uint16_t Pointer;
-extern TCHAR  fileNames[13][13];
+static char  fileNames[13][13];  // moved here from mainwnd
 static DWORD  FileLength[12];
 
 void AnalyzeDate(WORD datex, char* str){
@@ -183,7 +186,8 @@ char string0[10];
     DIR dir = { 0 };
     FILINFO fno = { 0 };
     FRESULT fr = f_opendir(&dir, SNDIR);
-    int i,j, fileNoMax;
+    // int i; // unused
+    int j, fileNoMax;
     fileNoMax=0;
 
     if (fr == FR_OK)
@@ -214,7 +218,7 @@ char string0[10];
                 fileNoMax++;
             }
             j++;
-            FileNo++;
+            // FileNo++;  // unused ?? what is that used for?
 
         }
         f_closedir(&dir);
@@ -235,9 +239,9 @@ char string0[10];
 char* SCREENSHOT_SelectFileName(void)
 {
     static char fname[64];
-    char path[128];
+    // char path[128]; // unused
     uint32_t dfnum = 0;
-    uint32_t retVal;
+    // uint32_t retVal; // unused
 
     f_mkdir(SNDIR);
 
@@ -344,7 +348,7 @@ short AMPM1;
 void SCREENSHOT_Save(const char *fname)
 {
     char path[64];
-    char wbuf[256];
+    // char wbuf[256]; // unused
     FRESULT fr = FR_OK;
     FIL fo = { 0 };
     sprintf(path, "%s.bmp", fname);
@@ -419,7 +423,7 @@ static void _Change_B_R(uint32_t* image)
 void SCREENSHOT_SavePNG(const char *fname)
 {
     char path[64];
-    char wbuf[256];
+    // char wbuf[256]; // unused
     FRESULT fr = FR_OK;
     FIL fo = { 0 };
     sprintf(path, "%s.png", fname);
@@ -458,15 +462,15 @@ void SCREENSHOT_SavePNG(const char *fname)
 extern unsigned lodepng_decode32(unsigned char** out, unsigned* w, unsigned* h,
                           const unsigned char* in, size_t insize);
 
-static unsigned char* inBuf;
-static unsigned char InBuf[8000];
+// static unsigned char* inBuf;   // unused
+// static unsigned char InBuf[8000]; // unused
 
 void SCREENSHOT_ShowPicture(uint16_t Pointer1)
 {
 char path[255];
 char FileName[13];
 char error1[64];
-int8_t i;
+// int8_t i; // unused
 unsigned w,h,result1;
 uint8_t* OutBuf=0; //&bmpFileBuffer[0];
 

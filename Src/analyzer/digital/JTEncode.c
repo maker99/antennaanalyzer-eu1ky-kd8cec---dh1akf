@@ -411,7 +411,7 @@ void fsq_encode(const char * from_call, const char * message, uint8_t * symbols)
   char tx_buffer[155];
   char * tx_message;
   uint16_t symbol_pos = 0;
-  uint8_t i, fch, vcode1, vcode2, tone;
+  uint8_t i, fch, vcode1, vcode2; // , tone;    // unused
   uint8_t cur_tone = 0;
 
   // Clear out the transmit buffer
@@ -498,7 +498,7 @@ void fsq_dir_encode(const char * from_call, const char * to_call, const char cmd
   char tx_buffer[155];
   char * tx_message;
   uint16_t symbol_pos = 0;
-  uint8_t i, fch, vcode1, vcode2, tone, from_call_crc;
+  uint8_t i, fch, vcode1, vcode2,from_call_crc; // tone,  // unused
   uint8_t cur_tone = 0;
 
   // Generate a CRC on from_call
@@ -586,7 +586,7 @@ void fsq_dir_encode(const char * from_call, const char * to_call, const char cmd
  */
 void ft8_encode_msg(const char * msg, uint8_t * symbols)	//change function name
 {
-  uint8_t i;
+  // uint8_t i;  // unused
 
   char message[19];
   memset(message, 0, 19);
@@ -1270,7 +1270,7 @@ void jt65_interleave(uint8_t * s)
 
 void jt9_interleave(uint8_t * s)
 {
-  uint8_t i, j;
+  uint8_t i; // , j; // unused
   uint8_t d[JT9_BIT_COUNT];
 
   // Do the interleave

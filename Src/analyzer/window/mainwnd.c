@@ -71,13 +71,13 @@ static void MenuCalibration(void);
 static TEXTBOX_CTX_t menu3_ctx;
 
 // MenuRTC
-static TEXTBOX_CTX_t menuRTC_ctx;
+// static TEXTBOX_CTX_t menuRTC_ctx;   //unused
 // Oscillator test
 static TEXTBOX_CTX_t osci_ctx;
 
 // Voltage
 static int  VoltCase, Volt_max_Display, Volt_min_Display, Volt_max_Factor;
-static uint32_t color1, color2;
+// static uint32_t color1, color2;   //unused
 
 int BattVoltage, Batt;
 float VoltFloat, percent;
@@ -94,9 +94,9 @@ static void Colours(void);
 static USBD_HandleTypeDef USBD_Device;
 extern char SDPath[4];
 extern FATFS SDFatFs;
-extern uint8_t second;
-static FILINFO fno;
-static int voltage;
+// extern uint8_t second;  //unused already declared in main.h
+// static FILINFO fno;   //unused
+// static int voltage;   //unused
 static bool rqExit1;
 
 static void USBD_Proc()
@@ -144,7 +144,8 @@ static uint16_t  Line;
 static uint16_t  Pmax;
 static uint8_t EndFlag;
 
-static uint16_t rqExit, rqExitR, newLoad, FileNo;
+static uint16_t rqExit, rqExitR, newLoad;
+uint16_t FileNo;   
 volatile int Page;
 
 #define TBX0 190
@@ -348,7 +349,7 @@ void Reload_Proc(void){// WK ***************************************************
 static uint8_t second1;
 
 uint8_t TestDate(void){
-int dd,mm,yyyy,hh,mi;
+int dd,mm,yyyy;// ,hh,mi;  // unused
 char txt[10], txt1[5];
 
     if((date<=19800101)||(date>20803112))return 7;
@@ -955,7 +956,7 @@ static void MenuAccu(void){
 }
 
 extern uint32_t NumKeypad(uint32_t initial, uint32_t min_value, uint32_t max_value, const char* header_text);
-static uint32_t date2, time2;
+static uint32_t date2; // unused, time2;
 static uint32_t rtctime;
 
 bool TestRTCpresent(void){
@@ -976,7 +977,7 @@ short AMPM;
 }
 
 static void MenuRTC(void){// Date/Time real time clock
-unsigned char seconOld;
+// unsigned char seconOld;seconOld
 uint32_t date3,time3;
 short AMPM;
 char txt[20];

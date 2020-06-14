@@ -19,7 +19,7 @@ extern const char* BSSTR[];
 extern const char* BSSTR_HALF[];
 extern const uint32_t BSVALUES[];
 extern float DSP_CalcX(void);
-static uint32_t multi_fr[5];
+// static uint32_t multi_fr[5];   //unused here
 void PANVSWR2_Proc(void);
 typedef struct
 {
@@ -34,7 +34,7 @@ void Tune_SWR_Proc(void);
 
 void Quartz_proc(void);
 uint8_t AUDIO1;
-static uint8_t loudness;
+// static uint8_t loudness;   //unused
 void  setup_GPIO(void);
 
 

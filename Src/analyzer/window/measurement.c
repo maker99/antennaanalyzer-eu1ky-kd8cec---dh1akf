@@ -167,7 +167,8 @@ static void MeasurementModeDraw(DSP_RX rx)
 float VSWR = DSP_CalcVSWR(rx);
 float r= fabsf(crealf(rx));
 float im= cimagf(rx);
-float rp,xp,Cppf,Lpuh;
+// float Cppf,Lpuh; // unused
+float rp,xp; 
 if(r>0.05) rp=r+im*(im/r); else rp=10000.0;
 if(im*im>0.0025) xp=im+r*(r/im); else im=10000.0;
 if(parallel==1){
@@ -462,13 +463,15 @@ void Single_Frequency_Proc(void)
     float delta, r, im;
     uint32_t fbkup,f_mess;
     uint32_t activeLayer;
-    int l,j=0,k, firstRun;
+    // int j=0; // unused
+    // int firstRun;  // unused
+    int l,k;
     uint32_t speedcnt = 0;
     bool first = true;
     DSP_RX rx, rx0, rmid;
     LCDPoint pt;
     parallel=0;// selects parallel/serial calculation
-    int Cycles=0;
+    // int Cycles=0; // unused
     DrawFine=0;
     MeasRqExit = 0;
     MeasRedrawWindow = 0;
@@ -540,7 +543,7 @@ void Single_Frequency_Proc(void)
     ShowF();
 
 //   LCD_Rectangle(LCD_MakePoint(SCAN_ORIGIN_X - 1, SCAN_ORIGIN_Y-10), LCD_MakePoint(SCAN_ORIGIN_X + 201, SCAN_ORIGIN_Y + 22), LCD_BLUE);
-    firstRun=0;
+    // firstRun=0; // unused
     InitScan500();
     //ShowHitRect(MeasHitArr);
     //ShowIncDec();

@@ -175,7 +175,7 @@ static void do_fft_audiobuf(int ch)
 void FFTWND_Proc(void)
 {
     //uint32_t activeLayer;
-    uint32_t ctr = 0;
+    // uint32_t ctr = 0;   // unused
     int i;
     SetColours();
     rqExit = 0;

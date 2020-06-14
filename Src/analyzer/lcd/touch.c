@@ -56,7 +56,7 @@ uint8_t TOUCH_IsPressed(void)
 int GetTouchIndex(LCDPoint pt, const int checkButtons[][4], int checkCount)
 {
     #define TOUCH_TOP_MARGIN 5
-    int rst = -1;
+    // int rst = -1;; // unused
 
     for (int i = 0; i < checkCount; i++)
     {

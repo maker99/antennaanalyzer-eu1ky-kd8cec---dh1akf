@@ -187,7 +187,7 @@ LCDColor    c;
 
 static void DrawCursor()
 {
-    int8_t i;
+    // int8_t i; // unused
     LCDPoint p;
     if (!isMeasured)
         return;
@@ -289,7 +289,7 @@ static void Track_DrawGrid(int justGraphDraw)  //
     int i;
     int verticalPos = 12;
     uint32_t fstart;
-    uint32_t pos = 130;
+    // uint32_t pos = 130; // unused
 
     #define VerticalStep 29.3
     #define VerticalX 10
@@ -373,8 +373,9 @@ static void Track_DrawGrid(int justGraphDraw)  //
     //LCD_FillRect((LCDPoint){X0 ,Y0+WHEIGHT+1},(LCDPoint){X0 + WWIDTH+2,Y0+WHEIGHT+3},BackGrColor);
 }
 
-static uint32_t Fs, Fp;// in Hz
-static float Cp, Rs;
+// static uint32_t Fs, Fp;// in Hz   // unused
+// static float Rs; // unused
+static float Cp;
 
 //extern void DSP_MeasureTrack(uint32_t freqHz, int applyErrCorr, int applyOSL, int nMeasurements);
 //extern float DSP_MeasuredTrackValue();
@@ -726,7 +727,8 @@ static void Scan21Fast()
         if (0 == i % FAST_DIVIDE_FREQ)
             continue;
 
-        int fi0, fi1, fi2;
+        // int fi1; // unused
+        int fi0, fi2;
 
         fi0 = i / FAST_DIVIDE_FREQ;
         fi2 = fi0 + 1;
@@ -753,7 +755,8 @@ static void Scan21Fast()
 static void Track_DrawRX(int SelQu, int SelEqu)// SelQu=1, if quartz measurement  SelEqu=1, if equal scales
 {
 #define LimitR 1999.f
-    int i, imax;
+    int i;
+    // int imax; // unused
     int x, RXX0;
 
     if (!isMeasured)
@@ -766,7 +769,7 @@ static void Track_DrawRX(int SelQu, int SelEqu)// SelQu=1, if quartz measurement
 
     //Draw  labels
     int yofs = 0;
-    int yofs_sm = 0;
+    // int yofs_sm = 0; // unused
 
     //Now draw X graph
     lastoffset = 0;
@@ -845,12 +848,12 @@ int TRACK_TouchTest(){
 
 static void save_snapshot(void)
 {
-    static const TCHAR *sndir = "/aa/snapshot";
+    // static const TCHAR *sndir = "/aa/snapshot"; // unused
     char path[64];
-    char wbuf[256];
+    // char wbuf[256]; // unused
     char* fname = 0;
-    uint32_t i = 0;
-    FRESULT fr = FR_OK;
+    // uint32_t i = 0; // unused
+    // FRESULT fr = FR_OK; // unused
 
     if (!isMeasured)
         return;
@@ -884,8 +887,8 @@ CRASH_WR:
 void Track_Proc(void)
 {
     int redrawRequired = 0;
-    uint32_t activeLayer;
-    uint32_t FreqkHz;
+    // uint32_t activeLayer;  // unused
+    // uint32_t FreqkHz; // unused
 
     //allocated memory
     valuesmI = (float *)malloc(sizeof(float) * (WWIDTH + 20));
@@ -930,7 +933,7 @@ void Track_Proc(void)
     autoMeasureSpeed = CFG_GetParam(CFG_PARAM_S21_AUTOSPEED);
 
 
-    FreqkHz = f1 / 1000;
+    // FreqkHz = f1 / 1000; // unused
 
     Track_DrawGrid(0);
     TRACK_DrawFootText();

@@ -1058,7 +1058,7 @@ static float complex LC_OSL_CorrectG(uint32_t fhz, float complex gMeasured)
         return gMeasured;
     }
 
-    int i, k=0;
+    // int i, k=0;   // unused
 
     int lcIndex = GetLCOSLIndex(fhz);
 
