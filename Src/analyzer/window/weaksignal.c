@@ -72,6 +72,8 @@ extern void TRACK_Beep(int duration);
 
 extern void JTEncode(void); //for JTEncode converted C++ -> C
 extern uint32_t GetInternTime(uint8_t *secondsx);   //at mainwind.c
+
+// TODO: move definitions to header file
 //=============================================================================
 //FREQUENCYS for Digital Mode
 //By KD8CEC
@@ -140,7 +142,7 @@ const int wsMenus[wsMenus_Length][4] = {
 };
 
 //uint8_t isOnAir = 1;
-
+// TODO: move to header file
 #define PR_WSPR 0
 #define PR_FT8  1
 #define PR_FT4  2
@@ -157,10 +159,10 @@ char *wsLocation      = &g_ws_data[12];   //9
 uint8_t wsDBM   = 0;
 char *wsDBMStr        = &g_ws_data[23];   //7
 char *wsMessage       = &g_ws_data[31];   //21 = 52
-uint8_t *nowPR        = &g_ws_data[53];
-uint8_t *nowBandIndex = &g_ws_data[54];
+uint8_t *nowPR        = (uint8_t *)&g_ws_data[53];
+uint8_t *nowBandIndex = (uint8_t *)&g_ws_data[54];
 
-uint8_t *wsTXPower    = &g_ws_data[55];
+uint8_t *wsTXPower    = (uint8_t *)&g_ws_data[55];
 int16_t *wsAUDIOFreq  = (int16_t *)&g_ws_data[57];
 
 char wsKeyboardTmp[21];
@@ -170,6 +172,7 @@ char wsKeyboardTmp[21];
 
 //}
 
+// TODO: move to header file
 #define WS_ST_NONE        0    //Not Status
 #define WS_ST_READY       1    //RTC Send Ready
 #define WS_ST_SENDMANUAL1 2    //Send By Manual
@@ -181,9 +184,9 @@ uint8_t NowStatus = WS_ST_NONE;
 
 
 #include "ff.h"
-static const char *g_ws_fpath = "/aa/wsignal.bin";
+static const char *g_ws_fpath = "/aa/wsignal.bin";  // TODO: move to header file
 
-void WS_StoredInformatoin(void)
+void WS_StoredInformatoin(void)  // TODO: fix typo
 {
     FRESULT res;
     FIL fo = { 0 };

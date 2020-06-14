@@ -143,7 +143,7 @@ uint8_t* OutBuf=0;
             result1=lodepng_decode24(&OutBuf, &w, &h, bmpFileBuffer, fo.fsize);
             f_close(&fo);
             if(result1==0){
-               PixPict((480-w)/2,(272-h)/2,&OutBuf[0]);
+               PixPict((480-w)/2,(272-h)/2,(char *)&OutBuf[0]);
                //lodepng_free(OutBuf);
                lodepng_free((void*) &OutBuf[0]);   //changed by wk
             }
@@ -322,7 +322,8 @@ void SCREENSHOT_DeleteOldest(void)
 }
 
 void Date_Time_Stamp(void){
-char text[24], second1;
+char text[24];
+unsigned char second1;
 uint32_t mon;
 short AMPM1;
 
@@ -513,7 +514,7 @@ uint8_t* OutBuf=0; //&bmpFileBuffer[0];
             f_close(&fo);
 
             if(result1==0){
-               PixPict(0,0,&OutBuf[0]);
+               PixPict(0,0,(char *)&OutBuf[0]);
                lodepng_free(OutBuf);
             }
             else {
