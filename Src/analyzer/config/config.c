@@ -419,12 +419,15 @@ void CFG_Init(void)
     CFG_SetParam(CFG_PARAM_F_LO_DIV_BY_TWO, 0);
     CFG_SetParam(CFG_PARAM_GEN_F, 14000000ul);
     CFG_SetParam(CFG_PARAM_PAN_CENTER_F, 0);
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wstrict-aliasing"
     float tmp = 5.1f;
     CFG_SetParam(CFG_PARAM_BRIDGE_RM, *((uint32_t*)&tmp));
     tmp = 200.f;
     CFG_SetParam(CFG_PARAM_BRIDGE_RADD, *((uint32_t*)&tmp));
     tmp = 51.f;
     CFG_SetParam(CFG_PARAM_BRIDGE_RLOAD, *((uint32_t*)&tmp));
+     #pragma GCC diagnostic pop
     CFG_SetParam(CFG_PARAM_COM_PORT, COM1);
     CFG_SetParam(CFG_PARAM_COM_SPEED, 38400);
     CFG_SetParam(CFG_PARAM_LOWPWR_TIME, 0);
@@ -689,7 +692,10 @@ const char * CFG_GetStringValue(uint32_t param_idx)
         sprintf(tstr, "%d", (int)((int32_t)uval));
         break;
     case CFG_PARAM_T_F32:
+        #pragma GCC diagnostic push
+        #pragma GCC diagnostic ignored "-Wstrict-aliasing"
         sprintf(tstr, "%f", *(float*)&uval);
+        #pragma GCC diagnostic pop
         break;
     case CFG_PARAM_T_CH:
         memcpy(tstr, &uval, 4);
