@@ -28,7 +28,7 @@ int FONT_GetStrPixelWidth(FONTS fnt, const char* pStr);
 void FONT_ClearLine(FONTS fnt, LCDColor bg, uint16_t y0);
 void FONT_ClearHalfLine(FONTS fnt, LCDColor bg, uint16_t y0);// WK
 uint16_t FONT_GetHeight(FONTS fnt);
-int FONT_Write_RightAlign(FONTS fnt, LCDColor fg, LCDColor bg, uint16_t x, uint16_t y, uint16_t x2, const char* pStr);
+void FONT_Write_RightAlign(FONTS fnt, LCDColor fg, LCDColor bg, uint16_t x, uint16_t y, uint16_t x2, const char* pStr);
 
 #ifdef __cplusplus
 }

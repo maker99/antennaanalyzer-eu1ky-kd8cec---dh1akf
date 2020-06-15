@@ -370,26 +370,26 @@ static bmp_result bmp_analyse_header(bmp_image *bmp, uint8_t *data)
     }
  //   if(header_size == 12)
  //   {
-        /* the following header is for os/2 and windows 2.x and consists of:
-         *
-         *  +0  UINT32  size of this header (in bytes)
-         *  +4  INT16   image width (in pixels)
-         *  +6  INT16   image height (in pixels)
-         *  +8  UINT16  number of colour planes (always 1)
-         *  +10 UINT16  number of bits per pixel
-         */
-   /*     width = read_int16(data, 4);
-        height = read_int16(data, 6);
-        if((width <= 0) || (height == 0))
-        {
-            return BMP_DATA_ERROR;
-        }
-        if(height < 0)
-        {
-            bmp->reversed = true;
-            height = -height;
-        }
-     //   /* ICOs only support 256*256 resolutions
+        // /* the following header is for os/2 and windows 2.x and consists of:
+        //  *
+        //  *  +0  UINT32  size of this header (in bytes)
+        //  *  +4  INT16   image width (in pixels)
+        //  *  +6  INT16   image height (in pixels)
+        //  *  +8  UINT16  number of colour planes (always 1)
+        //  *  +10 UINT16  number of bits per pixel
+        //  */
+        // width = read_int16(data, 4);
+        // height = read_int16(data, 6);
+        // if((width <= 0) || (height == 0))
+        // {
+        //     return BMP_DATA_ERROR;
+        // }
+        // if(height < 0)
+        // {
+        //     bmp->reversed = true;
+        //     height = -height;
+        // }
+        /* ICOs only support 256*256 resolutions
          * In the case of the ICO header, the height is actually the added
          * height of XOR-Bitmap and AND-Bitmap (double the visible height)
          * Technically we could remove this check and ICOs with bitmaps

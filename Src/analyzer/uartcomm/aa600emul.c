@@ -47,7 +47,7 @@ static char* _trim(char *str)
     return str;
 }
 
-static void Wait_proc(void){
+__attribute__((unused)) static void Wait_proc(void){
 
     Sleep(500);
 }

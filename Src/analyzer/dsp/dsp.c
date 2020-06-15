@@ -471,7 +471,8 @@ void DSP_MeasureTrack(uint32_t freqHz, int applyErrCorr, int applyOSL, int nMeas
     // float mag_v = 0.0f;; // unused
     float mag_i = 0.0f;
     // float pdif = 0.0f;; // unused
-    float complex res_v, res_i;
+    // float complex res_v; // unused
+    float complex res_i;
     int i;
     int retries = 3;
 
@@ -508,7 +509,7 @@ void DSP_MeasureTrack(uint32_t freqHz, int applyErrCorr, int applyOSL, int nMeas
         res_i = DSP_FFT(0); //Input //TILE:0.3Sec
         //res_v = DSP_FFT(1); //Output
 
-        mag_v_buf[i] = crealf(res_v);
+        //mag_v_buf[i] = crealf(res_v);   
         mag_i_buf[i] = crealf(res_i);
         //pdif = cimagf(res_i) - cimagf(res_v);
         //Correct phase difference quadrant

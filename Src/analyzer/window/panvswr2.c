@@ -327,7 +327,7 @@ static int swroffset(float swr)
     return offs;
 }
 
-static int Z_offset(float Z)
+__attribute__((unused)) static int Z_offset(float Z) 
 {
     int offs = (int)roundf(50. * log10f(Z+1));
     if (offs >= WHEIGHT)
@@ -480,7 +480,7 @@ static void DrawCursorTextWithS11()
 
 }
 
-static void DrawSavingText(void)
+__attribute__((unused)) static void DrawSavingText(void)
 {
     static const char* txt = "  Saving snapshot...  ";
     FONT_Write(FONT_FRAN, LCD_WHITE, LCD_BLUE, 165,

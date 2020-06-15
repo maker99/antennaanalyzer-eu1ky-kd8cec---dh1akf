@@ -330,7 +330,7 @@ static void TDR_DrawGraph(void)
     uint32_t i, factor;
     uint32_t lasty = Y0;
     uint32_t lastz = Y0;
-    uint32_t y;
+    uint32_t y=0; // init it
     uint32_t z;
     float w;
     normFactor=1.f;
@@ -359,12 +359,12 @@ static void TDR_DrawGraph(void)
 
         if (0 != i)
         {
-            LCD_Line(LCD_MakePoint(X0 + (i-1)*MaxTDR_Length/(TDR_Length*factor), lasty), LCD_MakePoint(X0 + i*MaxTDR_Length/(TDR_Length*factor), y), Color1);
-            LCD_Line(LCD_MakePoint(X0 + (i-1)*MaxTDR_Length/(TDR_Length*factor), lasty+1), LCD_MakePoint(X0 + i*MaxTDR_Length/(TDR_Length*factor), y+1), Color1);
-            LCD_Line(LCD_MakePoint(X0 + (i-1)*MaxTDR_Length/(TDR_Length*factor)-1, lasty), LCD_MakePoint(X0 + i*MaxTDR_Length/(TDR_Length*factor)-1, y+1), Color1);
-	        LCD_Line(LCD_MakePoint(X0 + (i-1)*MaxTDR_Length/(TDR_Length*factor), lastz), LCD_MakePoint(X0 + i*MaxTDR_Length/(TDR_Length*factor), z), LCD_RED);
-	        LCD_Line(LCD_MakePoint(X0 + (i-1)*MaxTDR_Length/(TDR_Length*factor), lastz+1), LCD_MakePoint(X0 + i*MaxTDR_Length/(TDR_Length*factor), z+1), LCD_RED);
-            LCD_Line(LCD_MakePoint(X0 + (i-1)*MaxTDR_Length/(TDR_Length*factor)-1, lastz), LCD_MakePoint(X0 + i*MaxTDR_Length/(TDR_Length*factor)-1, z+1), LCD_RED);
+            LCD_Line(LCD_MakePoint(X0 + (i-1)*MaxTDR_Length/(TDR_Length*factor),   lasty  ), LCD_MakePoint(X0 + i*MaxTDR_Length/(TDR_Length*factor),   y  ), Color1);
+            LCD_Line(LCD_MakePoint(X0 + (i-1)*MaxTDR_Length/(TDR_Length*factor),   lasty+1), LCD_MakePoint(X0 + i*MaxTDR_Length/(TDR_Length*factor),   y+1), Color1);
+            LCD_Line(LCD_MakePoint(X0 + (i-1)*MaxTDR_Length/(TDR_Length*factor)-1, lasty  ), LCD_MakePoint(X0 + i*MaxTDR_Length/(TDR_Length*factor)-1, y+1), Color1);
+	        LCD_Line(LCD_MakePoint(X0 + (i-1)*MaxTDR_Length/(TDR_Length*factor),   lastz  ), LCD_MakePoint(X0 + i*MaxTDR_Length/(TDR_Length*factor),   z  ), LCD_RED);
+	        LCD_Line(LCD_MakePoint(X0 + (i-1)*MaxTDR_Length/(TDR_Length*factor),   lastz+1), LCD_MakePoint(X0 + i*MaxTDR_Length/(TDR_Length*factor),   z+1), LCD_RED);
+            LCD_Line(LCD_MakePoint(X0 + (i-1)*MaxTDR_Length/(TDR_Length*factor)-1, lastz  ), LCD_MakePoint(X0 + i*MaxTDR_Length/(TDR_Length*factor)-1, z+1), LCD_RED);
 
         }
         lasty = y;

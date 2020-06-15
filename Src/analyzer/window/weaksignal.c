@@ -651,8 +651,8 @@ void SendingStart(void)
 {
     char textPercent[10];
     uint8_t tx_buffer[255];
-    uint8_t symbol_count;
-    uint16_t tone_delay;
+    uint8_t symbol_count = 0;
+    uint16_t tone_delay = 0;  // init it
     uint16_t protocol_BW = 0;
     uint16_t protocol_DIV = 0;
 

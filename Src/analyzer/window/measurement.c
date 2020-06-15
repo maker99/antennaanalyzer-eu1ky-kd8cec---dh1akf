@@ -113,12 +113,12 @@ void DrawSmallSmith(int X0, int Y0, int R, float complex rx)
                      SMITH_J50 | SMITH_J100 | SMITH_J200 | SMITH_J25 | SMITH_J10);
 
     //Draw mini-scan points
-uint32_t i;
-int x, y;
-float complex Gx;
+    uint32_t i;
+    int x, y;
+    float complex Gx=0;
     //SMITH_ResetStartPoint();// WK
 
-   for (i = 0; i < 100; i++)
+    for (i = 0; i < 100; i++)
     {
         if(TOUCH_IsPressed()) return;
         if(crealf(zFine500[i])!=9999.){
@@ -164,18 +164,18 @@ static float MeasMagDif;
 //Display measured data
 static void MeasurementModeDraw(DSP_RX rx)
 {
-float VSWR = DSP_CalcVSWR(rx);
-float r= fabsf(crealf(rx));
-float im= cimagf(rx);
-// float Cppf,Lpuh; // unused
-float rp,xp; 
-if(r>0.05) rp=r+im*(im/r); else rp=10000.0;
-if(im*im>0.0025) xp=im+r*(r/im); else im=10000.0;
-if(parallel==1){
-    r=rp;
-    im=xp;
-}
-char str[40] = "";
+    float VSWR = DSP_CalcVSWR(rx);
+    float r= fabsf(crealf(rx));
+    float im= cimagf(rx);
+    // float Cppf,Lpuh; // unused
+    float rp,xp; 
+    if(r>0.05) rp=r+im*(im/r); else rp=10000.0;
+    if(im*im>0.0025) xp=im+r*(r/im); else xp=10000.0; // im=10000.0;  // TODO: check if this should be xp
+    if(parallel==1){
+        r=rp;
+        im=xp;
+    }
+    char str[40] = "";
     MeasMagDif=DSP_MeasuredDiffdB();
     sprintf(str, "Magnitude diff %.2f dB     ", MeasMagDif);
     LCD_FillRect(LCD_MakePoint(1,62),LCD_MakePoint(260,151),BackGrColor);
@@ -656,7 +656,7 @@ void Single_Frequency_Proc(void)
 
                 MeasurementModeDraw(rmid);
                 if(MeasMagDif<10.5f){
-                    BSP_LCD_SelectLayer(!activeLayer);
+                    BSP_LCD_SelectLayer(!activeLayer);  // TODO: fix this
                     DrawSmallSmith(380, 180, 80, rx);
                     BSP_LCD_SelectLayer(!activeLayer);// WK
                     LCD_ShowActiveLayerOnly();

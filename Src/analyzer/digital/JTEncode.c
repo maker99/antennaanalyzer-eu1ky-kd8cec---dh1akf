@@ -1105,7 +1105,7 @@ void ft8_bit_packing(char* message, uint8_t* codeword)
 	memset(qa, 0, 10);
 	memset(qb, 0, 10);
 
-	uint8_t i, j, x, i0;
+	uint8_t i, j, x, i0=0;  // init i0
 	uint32_t ireg = 0;
 
 	// See if this is a telemetry message

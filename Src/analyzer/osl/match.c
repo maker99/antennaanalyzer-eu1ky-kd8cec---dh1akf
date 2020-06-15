@@ -43,9 +43,9 @@ void PrintValue(float X, char* str){
 }
 
 int PrintLine(int X0, int Y0, float k1, float k2, float k3){
-char str1[32];
-char str2[32];
-char str3[32];
+    char str1[32];
+    char str2[32];
+    char str3[32];
 	PrintValue(k1, str1);
 	PrintValue(k2, str2);
 	PrintValue(k3, str3);

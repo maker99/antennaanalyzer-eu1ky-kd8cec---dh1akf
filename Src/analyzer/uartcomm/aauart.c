@@ -66,7 +66,7 @@ void DBG_Str(const char* str)
 
 static char tmpBuf[256];
 
-int DBG_Printf(const char *fmt, ...)
+void DBG_Printf(const char *fmt, ...)
 {
 
     int np = 0;

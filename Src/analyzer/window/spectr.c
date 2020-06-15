@@ -421,7 +421,7 @@ static const int dBs[]={10,0,-10,-20,-30,-40,-50,-60,-70};
 static float signal;
 static int breaker;
 
-int Delta(int binMax0, int binMax1, int binMax2){
+int Delta(int binMax0, int binMax1, int binMax2){ 
     breaker=0;
     if((binMax0+binMax1+binMax2==0)){
             breaker=9;
@@ -467,6 +467,7 @@ int Delta(int binMax0, int binMax1, int binMax2){
         //color=LCD_COLOR_ORANGE;
         return binMax2-176;
     }
+    return 0;  // lint happyness
 }
 
 void ShowSpectLine(int x){

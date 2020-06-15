@@ -110,7 +110,7 @@ int FONT_Write(FONTS fnt, LCDColor fg, LCDColor bg, uint16_t x, uint16_t y, cons
 }
 
 //Right Align, by KD8CEC
-int FONT_Write_RightAlign(FONTS fnt, LCDColor fg, LCDColor bg, uint16_t x, uint16_t y, uint16_t x2, const char* pStr)
+void FONT_Write_RightAlign(FONTS fnt, LCDColor fg, LCDColor bg, uint16_t x, uint16_t y, uint16_t x2, const char* pStr)
 {
     int drawX = x2 - FONT_GetStrPixelWidth(fnt, pStr);
     //DBG_Printf("x:%d, drawX:%d, targetWidth:%d, FontWidth:%d", x, drawX, targetWidth, FONT_GetStrPixelWidth(fnt, pStr));

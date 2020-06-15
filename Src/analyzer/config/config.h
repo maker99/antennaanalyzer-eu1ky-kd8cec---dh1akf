@@ -12,7 +12,7 @@
  #ifdef _DEBUG_UART
     void DBGUART_Init(void);
     void DBG_Str(const char* str);
-    int DBG_Printf(const char *fmt, ...);
+    void DBG_Printf(const char *fmt, ...);  // changed to void
  #endif
 //==============================================================
 

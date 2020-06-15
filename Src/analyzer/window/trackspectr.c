@@ -877,7 +877,7 @@ static void save_snapshot(void)
     DrawAutoText();
 
     return;
-CRASH_WR:
+CRASH_WR:        // TODO: fix this
     CRASHF("Failed to write to file %s", path);
 }
 
@@ -1007,7 +1007,7 @@ void Track_Proc(void)
                         Scan21(0);
                     redrawRequired = 1;
             }
-            else if (touchIndex == 4 || (pt.y < 80)&&(pt.x>60))    //Input Freq
+            else if (touchIndex == 4 || ((pt.y < 80)&&(pt.x>60)))    //Input Freq
             {
 
                 uint32_t fxkHzs;//Scan range start frequency, in kHz
