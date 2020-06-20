@@ -849,7 +849,7 @@ int TRACK_TouchTest(){
 static void save_snapshot(void)
 {
     // static const TCHAR *sndir = "/aa/snapshot"; // unused
-    char path[64];
+    // char path[64]; // unused
     // char wbuf[256]; // unused
     char* fname = 0;
     // uint32_t i = 0; // unused
@@ -877,8 +877,8 @@ static void save_snapshot(void)
     DrawAutoText();
 
     return;
-CRASH_WR:        // TODO: fix this
-    CRASHF("Failed to write to file %s", path);
+//CRASH_WR:        // TODO: fix this
+//    CRASHF("Failed to write to file %s", path);
 }
 
 //=====================================================================

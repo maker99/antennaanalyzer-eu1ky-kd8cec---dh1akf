@@ -462,7 +462,7 @@ void Single_Frequency_Proc(void)
 {
     float delta, r, im;
     uint32_t fbkup,f_mess;
-    uint32_t activeLayer;
+    // uint32_t activeLayer;  // unused
     // int j=0; // unused
     // int firstRun;  // unused
     int l,k;
@@ -656,9 +656,9 @@ void Single_Frequency_Proc(void)
 
                 MeasurementModeDraw(rmid);
                 if(MeasMagDif<10.5f){
-                    BSP_LCD_SelectLayer(!activeLayer);  // TODO: fix this
+                    BSP_LCD_SelectLayer(BSP_LCD_GetActiveLayer() == 1 ? 0 : 1); // proper layer switch
                     DrawSmallSmith(380, 180, 80, rx);
-                    BSP_LCD_SelectLayer(!activeLayer);// WK
+                    BSP_LCD_SelectLayer(BSP_LCD_GetActiveLayer() == 1 ? 0 : 1); 
                     LCD_ShowActiveLayerOnly();
                     MeasurementModeGraph(rx);
                 }

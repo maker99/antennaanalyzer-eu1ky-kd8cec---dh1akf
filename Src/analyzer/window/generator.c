@@ -233,7 +233,7 @@ int k=0; // init it
 }
 
 void GENERATOR_FM(void){
-int k;
+    int k = 0;
     while(TOUCH_IsPressed());
     Sleep(100);
     fx=CFG_GetParam(CFG_PARAM_GEN_F);

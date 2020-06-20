@@ -93,8 +93,8 @@ static void Calc_fft_audiobuf(int ch)
 static float Maxmag, Average;
 
 int CalcMaxBin(unsigned long frqu1){
-int n,idxmax = -1;
-float Val;
+    int n,idxmax = -1;
+    float Val;
 
     if(frqu1!=0)// 0: don't toggle frequency
         GEN_SetLOFreq(frqu1);
@@ -130,9 +130,9 @@ static unsigned long fx;
 static int binx, found;
 
 void    FX_ShowResult (void){
-char string1[40];
-float   PowerMax, powermw, powerdb;
-unsigned long testFreq, fmaxSIhz = CFG_GetParam(CFG_PARAM_SI5351_MAX_FREQ);
+    char string1[40];
+    float   PowerMax, powermw, powerdb;
+    unsigned long testFreq, fmaxSIhz = CFG_GetParam(CFG_PARAM_SI5351_MAX_FREQ);
 
 
         PowerMax=Maxmag*5.0f;
@@ -186,7 +186,7 @@ void SetUpperLower(void){
 }
 
 int OneBandExec(void){
-int res;
+    int res;
     found=0;
     Maxmag=0.5;
     res=SpectrumExec(0);
@@ -209,10 +209,10 @@ int res;
 }
 
 int ScanFull(void){
-// int k; // unused
-int res;
-// unsigned long fx1; // unused
-// int binx1; // unused
+    // int k; // unused
+    int res;
+    // unsigned long fx1; // unused
+    // int binx1; // unused
     LCD_FillRect((LCDPoint){132 ,100},(LCDPoint){479,190},BackGrColor);
 
     found=0;
@@ -256,8 +256,8 @@ void Full(void){
 }
 
 int OneBand(void){
-// int band; // unused
-int ret;
+    // int band; // unused
+    int ret = 0;
 
     if(sScan_Meas==1) return 0;
     LCD_FillRect((LCDPoint){132 ,100},(LCDPoint){479,190},BackGrColor);
@@ -299,10 +299,10 @@ int ret;
 }
 
 static void HamBandsExec(void){
-int k, ret;
-unsigned long fx1;
-int binx1;
-float Maxmag1;
+    int k, ret;
+    unsigned long fx1 = fx; // init to avoid -Wmaybe-uninitialized
+    int binx1 = binx;       // init to avoid -Wmaybe-uninitialized
+    float Maxmag1;
 
     Maxmag1=0.5;
     found=0;
@@ -367,7 +367,7 @@ void SCExit(void){
 }
 
 void freq(void){
-// int band; // unused
+    // int band; // unused
     while(TOUCH_IsPressed());
     Sleep(100);
     if(span>15) span=15;// (max. 4 MHz)
@@ -486,23 +486,25 @@ int y,h;
 
 int SpectrumExec(int graph){
 
-// float Scalefact,Scalefact1, Faktor1; // unused
-float sum1, flabel, MaxiMag,steps,MaxMag0,MaxMag1,MaxMag2, Faktor, testFreq, fraction;
-// int lastX,y,h,x0, KeyBreaker, case1, UpSb; // unused
-int AggregatedPoints,x,l,w,k, delta, n;
-// int found=0, pos;, case1, UpSb
-int yofs, LastX;
-// uint32_t power, t;, case1, UpSb
-// unsigned long FLow; // unused
-char s[20];
-char f[25];
-int MaxiBin, binMax0, binMax1, binMax2, linediv, lmod;
-unsigned long MaxiFreq, fmaxSIhz = CFG_GetParam(CFG_PARAM_SI5351_MAX_FREQ);
+    // float Scalefact,Scalefact1, Faktor1; // unused
+    float sum1, flabel, MaxiMag,steps,MaxMag0,MaxMag1,MaxMag2, Faktor, testFreq, fraction;
+    // int lastX,y,h,x0, KeyBreaker, case1, UpSb; // unused
+    int AggregatedPoints,x,l,w,k, delta, n;
+    // int found=0, pos;, case1, UpSb
+    int yofs, LastX;
+    // uint32_t power, t;, case1, UpSb
+    // unsigned long FLow; // unused
+    char s[20];
+    char f[25];
+    int MaxiBin, binMax0, binMax1, binMax2, linediv = 0, lmod =0 ;  // init to avoid -Wmaybe-uninitialized
+    unsigned long MaxiFreq, fmaxSIhz = CFG_GetParam(CFG_PARAM_SI5351_MAX_FREQ);
 
     // KeyBreaker=0; // unused
     Maxmag=0.0;
     MaxiMag=0.0;
     Average=0.0;
+    MaxiBin = 0; 
+    MaxiFreq = 0; 
     // h=LCD_GetHeight(); // unused
     LastX=LCD_GetWidth()+1;
     steps=(upper-lower)/17500.0f;// in 17.5 kHz steps

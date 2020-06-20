@@ -774,8 +774,8 @@ static void ScanRX(int selector)
 {
     // char str[15]; // unused
     float complex rx, rx0;
-    float newX, oldX, MaxX, absX;
-    uint32_t i, k, sel, imax;
+    float newX = 0, oldX = 0, MaxX, absX;
+    uint32_t i, k, sel, imax = 0;
     uint32_t fstart, freq1, deltaF;
 
     f1=CFG_GetParam(CFG_PARAM_PAN_F1);

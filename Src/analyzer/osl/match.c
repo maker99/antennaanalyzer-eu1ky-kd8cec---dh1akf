@@ -58,7 +58,7 @@ int PrintLine(int X0, int Y0, float k1, float k2, float k3){
 int calc_hi(int X0, int Y0, float R0, float complex ZL){
     float R = crealf(ZL);
     float X = cimagf(ZL);
-    int Ynew;
+    int Ynew = 0;
 	float m1, m2, m3, m4, m5, m6;
     int ret = 0;
     if (R0 == R) return Y0;
@@ -100,11 +100,11 @@ int calc_hi(int X0, int Y0, float R0, float complex ZL){
 
 // Calculate two solutions for ZL where R < R0
 int calc_lo(int X0, int Y0, float R0, float complex ZL){
-float R = crealf(ZL);
-float X = cimagf(ZL);
-float m1, m2, m3, m4, m5, m6;
-int ret = 0;
-int Ynew;
+    float R = crealf(ZL);
+    float X = cimagf(ZL);
+    float m1, m2, m3, m4, m5, m6;
+    int ret = 0;
+    int Ynew = 0;
     m1 = m2 = m3 = m4 = m5 = m6 = NORESULT;
     if (R0 == R) {
          m2 = -X;// Ser = -X compensates X
@@ -149,8 +149,8 @@ int Ynew;
 }
 
 void MATCH_Calc(int X0, int Y0, float complex ZL){
-int Ynew;
-float vswr = DSP_CalcVSWR(ZL);
+    int Ynew;
+    float vswr = DSP_CalcVSWR(ZL);
     if (vswr <= 1.1f || vswr >= 50.f){
 			//Don't calculate for low and too high VSWR
 		FONT_Write(FONT_FRAN, LCD_WHITE, LCD_BLACK, X0, Y0, "No LC match for this load");
