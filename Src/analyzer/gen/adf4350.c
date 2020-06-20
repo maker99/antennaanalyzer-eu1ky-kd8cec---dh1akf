@@ -24,6 +24,10 @@
 
 extern void Sleep(uint32_t);
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-value"
+
+
 static void adf4350_calc_div(uint32_t fhz, uint32_t* rfdiv_out, uint32_t* div_int, uint32_t* div_frac, uint32_t* div_mod)
 {
     //Check fhz valid value (140 MHz ... 4200 MHz)
@@ -60,6 +64,7 @@ static void adf4350_calc_div(uint32_t fhz, uint32_t* rfdiv_out, uint32_t* div_in
     assert_param(diff < 30);
     #endif
 }
+#pragma GCC diagnostic pop
 
 //Send 32-bit data to ADF4350
 static void adf4350_SendDW(uint32_t dw, SPI2_Slave_t slave)
