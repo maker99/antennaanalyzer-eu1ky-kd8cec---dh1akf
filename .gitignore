@@ -58,3 +58,6 @@ bin/*/*
 obj/*/*
 *.orig
 Thumbs.db
+Src/Inc/build_timestamp.h
+bin/Release/F7Discovery.bin
+Makefile__regions
