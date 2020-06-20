@@ -27,8 +27,10 @@ CC      = arm-none-eabi-gcc
 OBJCOPY = arm-none-eabi-objcopy
 SIZE    = arm-none-eabi-size
 
+WARNINGS = -Wall -Wreturn-type -Wunused-variable -Wunused-but-set-variable -Wpointer-sign -Wunused-function 
 CFLAGS  = -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -fgcse -fexpensive-optimizations -fomit-frame-pointer \
-          -fdata-sections -ffunction-sections -Os -g -mfpu=fpv5-sp-d16 -MMD -Wall
+          -fdata-sections -ffunction-sections -Os -g -mfpu=fpv5-sp-d16 -MMD \
+          $(WARNINGS)
 
 ASFLAGS = -mcpu=cortex-m7 -mthumb -Wa,--gdwarf-2
 
@@ -273,7 +275,10 @@ DEPS = $(OBJS:.o=.d)
 
 .PHONY: all
 
-all: gen bin/Release/F7Discovery.elf
+all: #gen bin/Release/F7Discovery.elf
+	@$(MAKE) -s gen
+	@$(MAKE) -s bin/Release/F7Discovery.elf
+
 
 
 clean:
