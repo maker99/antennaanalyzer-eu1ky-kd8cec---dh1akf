@@ -61,3 +61,4 @@ Thumbs.db
 Src/Inc/build_timestamp.h
 bin/Release/F7Discovery.bin
 Makefile__regions
+Src/analyzer/lcd/libnsbmp.c__
