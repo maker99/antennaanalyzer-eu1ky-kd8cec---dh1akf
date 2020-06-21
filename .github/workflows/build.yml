@@ -1,9 +1,9 @@
-name: build on testbranch
+name: build it
 # build file using github actions
 # 
 on:
   push:
-    branches: [ maker99-build_test ]
+    branches: [ maker99* ]
 #  pull_request:
 #    branches: [ master ]
 jobs:
