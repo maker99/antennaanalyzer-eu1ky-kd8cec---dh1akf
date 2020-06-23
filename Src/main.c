@@ -12,6 +12,7 @@
 #include "si5351.h"
 #include "dsp.h"
 #include "mainwnd.h"
+#include "shell.h"
 #include "aauart.h"
 #include "custom_spi2.h"
 #include "gen.h"
@@ -39,7 +40,8 @@ volatile uint32_t secondsCounter;
 uint8_t NotSleepMode = 0;
 
 void Sleep(uint32_t nms)
-{
+{ 
+    uart_rx_proc();
     uint32_t ts = CFG_GetParam(CFG_PARAM_LOWPWR_TIME);
     if (ts != 0 && NotSleepMode == 0)
     {
@@ -132,8 +134,10 @@ int main(void)
         CFG_SetParam(CFG_PARAM_LOWPWR_TIME, 0);
         autosleep_timer = 0;
     }
+    // shell_set_protocol_group(CFG_GetParam(CFG_PARAM_SHELL_PROTOCOL));
+    shell_set_protocol_group(SHELL_PROT_GROUP_NANOVNA);
 
- #ifndef _DEBUG_UART
+#ifndef _DEBUG_UART
     Sleep(1000);
 #endif
     ColourSelection=CFG_GetParam(CFG_PARAM_Daylight);

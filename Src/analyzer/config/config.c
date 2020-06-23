@@ -4,6 +4,7 @@
 #include "gen.h"
 #include <string.h>
 #include <stdint.h>
+#include "shell.h"
 
 static uint32_t g_cfg_array[CFG_NUM_PARAMS] = { 0 };
 const char *g_aa_dir = "/aa";
@@ -292,7 +293,7 @@ static const CFG_CHANGEABLE_PARAM_DESCR_t cfg_ch_descr_table[] =
         .dstring = "Serial port baudrate. Requires reset.",
         .isvalid = isShowHidden,
         .resetRequired = 1
-    },
+    },    
     {
         .id = CFG_PARAM_LOWPWR_TIME,
         .idstring = "LOW POWER TIMER",
@@ -369,6 +370,16 @@ static const CFG_CHANGEABLE_PARAM_DESCR_t cfg_ch_descr_table[] =
         .values = CFG_IARR(0, 1),
         .strvalues = CFG_SARR("No", "Yes"),
         .dstring = "Show hidden menu parameters.",
+    },
+    {
+        .id = CFG_PARAM_SHELL_PROTOCOL,
+        .idstring = "SHELL_PROTOCOL",
+        .nvalues = 3,
+        .values = CFG_IARR(SHELL_PROT_GROUP_INITIAL, SHELL_PROT_GROUP_NANOVNA, SHELL_PROT_GROUP_RIGEXPERT),
+        .strvalues = CFG_SARR("Default", "NanoVNA", "RigExpert"),
+        .type = CFG_PARAM_T_U32,
+        .dstring = "Shell protocol",
+        .isvalid = isShowHidden,
     },
 };
 
@@ -480,6 +491,8 @@ void CFG_Init(void)
 
     CFG_SetParam(CFG_PARAM_PAN_AUTOSPEED, 8);
     CFG_SetParam(CFG_PARAM_S21_AUTOSPEED, 8);
+
+    CFG_SetParam(CFG_PARAM_SHELL_PROTOCOL, SHELL_PROT_GROUP_INITIAL);
 
     //Load parameters from file on SD card
     FRESULT res;

@@ -16,11 +16,11 @@ void FIFO_Init(FIFO_Descr *pFifo)
 
 FIFO_STATUS FIFO_Put(FIFO_Descr *pFifo, uint8_t ch)
 {
-    if(pFifo->count == FIFO_SIZE)
+    if(pFifo->count == pFifo->size)
         return FIFO_ERROR;
     pFifo->buff[pFifo->in++]=ch;
     pFifo->count++;
-    if(pFifo->in == FIFO_SIZE)
+    if(pFifo->in == pFifo->size)
         pFifo->in=0;
     return FIFO_OK;
 }
@@ -31,7 +31,7 @@ FIFO_STATUS FIFO_Get(FIFO_Descr *pFifo, uint8_t *ch)
         return FIFO_ERROR;
     *ch = pFifo->buff[pFifo->out++];
     pFifo->count--;
-    if (pFifo->out == FIFO_SIZE)
+    if (pFifo->out == pFifo->size)
         pFifo->out = 0;//start from beginning
     return FIFO_OK;
 }
@@ -45,7 +45,7 @@ int FIFO_IsEmpty(FIFO_Descr *pFifo)
 
 int FIFO_IsFull(FIFO_Descr *pFifo)
 {
-    if (pFifo->count == FIFO_SIZE)
+    if (pFifo->count == pFifo->size)
         return 1;
     return 0;
 }

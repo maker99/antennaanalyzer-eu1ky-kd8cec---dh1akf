@@ -171,6 +171,7 @@ typedef enum
     CFG_PARAM_PAN_AUTOSPEED,          //Panorama Auto Speed
     CFG_PARAM_S21_AUTOSPEED,          //Panorama Auto Speed
 
+    CFG_PARAM_SHELL_PROTOCOL,         //Shell protocol version
     //For count of params ---------------------
     CFG_NUM_PARAMS
 } CFG_PARAM_t;

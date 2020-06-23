@@ -40,7 +40,8 @@
 
 //KD8CEC
 #include "guicontrol.h"
-#include "aaprotocol.h"
+// #include "aaprotocol.h" 
+#include "shell.h" 
 
 //#include "trackspectr.h"
 extern void Track_Proc(void);
@@ -482,7 +483,7 @@ int counter11;
     //Draw context
     TEXTBOX_DrawContext(&main_ctx);
 
-    PROTOCOL_Reset();
+    //PROTOCOL_Reset();
     InitVoltage();
 
     FONT_Write(FONT_FRAN, LCD_WHITE, 0, 420, 9, AAVERSION_CECV);
@@ -576,7 +577,7 @@ int counter11;
                 LCD_DrawBitmap(LCD_MakePoint(0, 0), mainimg_bmp, mainimg_bmp_size);
                 TEXTBOX_DrawContext(&main_ctx);
                 LCD_ShowActiveLayerOnly();
-                PROTOCOL_Reset();
+                //PROTOCOL_Reset();
 
                 //Write Version Number
                 FONT_Write(FONT_FRAN, LCD_WHITE, 0, 420, 9, AAVERSION_CECV);
@@ -587,7 +588,8 @@ int counter11;
 
         }
 
-        PROTOCOL_Handler();
+        //PROTOCOL_Handler();
+        uart_rx_proc();
     }
 }
 #define XXa 2

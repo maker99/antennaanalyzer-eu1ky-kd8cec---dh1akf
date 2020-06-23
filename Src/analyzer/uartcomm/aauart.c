@@ -2,7 +2,6 @@
  *   (c) Yury Kuchura
  *   kuchura@gmail.com
  *
- *   Modified : by KD8CEC , Added feather for DEBUG
  *   This code can be used on terms of WTFPL Version 2 (http://www.wtfpl.net/).
  */
 
@@ -11,12 +10,22 @@
 #include <stdint.h>
 
 #include "main.h"
+
+#ifdef STM32H745I
+#include "stm32h745i_discovery.h"
+#include "stm32h7xx_hal_uart.h"
+#else
 #include "stm32f7xx_hal_uart.h"
+#endif
+
+
 #include "config.h"
 #include "aauart.h"
 #include "fifo.h"
-#include <stdarg.h>
 
+#define AAUART_RX_FIFO_SIZE 128
+
+static uint8_t rxfifobuf[AAUART_RX_FIFO_SIZE];
 static FIFO_Descr rxfifo;
 static volatile int32_t AAUART_busy = 0;
 static volatile uint32_t rx_overflow_ctr = 0;
@@ -25,70 +34,14 @@ static UART_HandleTypeDef UartHandle = {0};
 static const uint8_t* volatile txptr = 0;
 static volatile uint32_t txctr = 0;
 
-//==================================================================
-//KD8CEC ROUTINE for Debug
-//==================================================================
-static UART_HandleTypeDef DBGUartHandle = {0};
-// static FIFO_Descr DBGrxfifo; // unused
-
-static uint8_t DBG_ACTIVE = 0;
-
-void DBGUART_Init(void)
-{
-    DBGUartHandle.Init.BaudRate = 115200; //9600;
-    DBGUartHandle.Init.WordLength = UART_WORDLENGTH_8B;
-    DBGUartHandle.Init.StopBits = UART_STOPBITS_1;
-    DBGUartHandle.Init.Parity = UART_PARITY_NONE;
-    DBGUartHandle.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-    DBGUartHandle.Init.Mode = UART_MODE_TX_RX;
-    BSP_COM_Init(COM2, &DBGUartHandle);
-
-    DBG_ACTIVE = 1;
-}
-
-void DBGUART_Char(int ch)
-{
-    //Check Init UART
-    if (! DBG_ACTIVE)
-        return;
-
-    DBGUartHandle.Instance->TDR = ch;
-    while(!(DBGUartHandle.Instance->ISR & USART_ISR_TXE));
-}
-
-void DBG_Str(const char* str)
-{
-    for (int i = 0; i < strlen(str); i++)
-        DBGUART_Char(str[i]);
-    DBGUART_Char(10);
-    DBGUART_Char(13);
-}
-
-static char tmpBuf[256];
-
-void DBG_Printf(const char *fmt, ...)
-{
-
-    int np = 0;
-    va_list ap;
-    va_start(ap, fmt);
-    np = vsnprintf(tmpBuf, 255, fmt, ap);
-    tmpBuf[np] = '\0';
-    va_end(ap);
-    DBG_Str(tmpBuf);
-}
-
-//=======================================================================
-//END OF KD8CEC ROUTINE for Debug
-//=======================================================================
-
-
 void AAUART_Init(void)
 {
-    uint32_t comport = CFG_GetParam(CFG_PARAM_COM_PORT);
+    uint32_t comport = COM1;     //CFG_GetParam(CFG_PARAM_COM_PORT);
     uint32_t comspeed = CFG_GetParam(CFG_PARAM_COM_SPEED);
     int IRQn;
 
+    rxfifo.buff = rxfifobuf;
+    rxfifo.size = AAUART_RX_FIFO_SIZE;
     FIFO_Init(&rxfifo);
 
     if (COM1 == comport)
@@ -104,8 +57,11 @@ void AAUART_Init(void)
     UartHandle.Init.Parity = UART_PARITY_NONE;
     UartHandle.Init.HwFlowCtl = UART_HWCONTROL_NONE;
     UartHandle.Init.Mode = UART_MODE_TX_RX;
+    UartHandle.Init.OverSampling = UART_OVERSAMPLING_16;
+    // UartHandle.FifoMode          = UART_FIFOMODE_ENABLE;
 
     BSP_COM_Init(comport, &UartHandle);
+
     // NVIC for USART
     HAL_NVIC_SetPriority(IRQn, 0, 1);
     HAL_NVIC_EnableIRQ(IRQn);

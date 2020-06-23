@@ -51,7 +51,8 @@ DEFINE = -DSTM32F746xx \
          -DLODEPNG_NO_COMPILE_ERROR_TEXT \
          -DLODEPNG_NO_COMPILE_ALLOCATORS \
          -DLODEPNG_NO_COMPILE_ANCILLARY_CHUNKS \
-         -DLODEPNG_NO_COMPILE_DECODER
+         -DLODEPNG_NO_COMPILE_DECODER \
+         -DRIGEXPERT_PROTOCOL_ENABLED
 
 INCLUDE = -ISrc/BSP/Components/ampire480272 \
           -ISrc/BSP/Components/ampire640480 \
@@ -145,8 +146,11 @@ SRC :=  Src/analyzer/BeepTimer.c \
         Src/analyzer/osl/oslfile.c \
         Src/analyzer/rtc/DS3231.c \
         Src/analyzer/uartcomm/aauart.c \
-        Src/analyzer/uartcomm/aa600emul.c \
         Src/analyzer/uartcomm/fifo.c \
+        Src/analyzer/uartcomm/nanovna.c \
+        Src/analyzer/uartcomm/rigexpert.c \
+        Src/analyzer/uartcomm/shell.c \
+        Src/analyzer/window/build_timestamp.c \
         Src/analyzer/window/fftwnd.c \
         Src/analyzer/window/generator.c \
         Src/analyzer/window/keyboard.c \

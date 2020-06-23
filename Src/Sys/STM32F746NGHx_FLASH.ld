@@ -112,6 +112,14 @@ SECTIONS
     PROVIDE_HIDDEN (__fini_array_end = .);
   } >FLASH
 
+  .SHELLCMD :
+  {
+    . = ALIGN(4);
+    __shell_area_start = .;
+    KEEP(*(.SHELLCMD))
+    __shell_area_end = .;
+  } >FLASH
+
   /* _user_stack section, the first in RAM to force placing in DTCM */
   ._user_stack :
   {

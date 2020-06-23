@@ -4,6 +4,7 @@
     "random": "c",
     "*.tcc": "c",
     "fstream": "c",
-    "type_traits": "c"
+    "type_traits": "c",
+    "cstdlib": "c"
   }
 }

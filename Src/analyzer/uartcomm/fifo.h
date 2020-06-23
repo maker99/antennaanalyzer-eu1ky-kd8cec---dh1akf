@@ -10,14 +10,13 @@
 
 #include <stdint.h>
 
-#define FIFO_SIZE 128
-
 typedef struct
 {
     uint8_t in;
     uint8_t out;
     uint8_t count;
-    uint8_t buff[FIFO_SIZE];
+    uint32_t size;
+    uint8_t *buff;
 } FIFO_Descr;
 
 typedef enum
