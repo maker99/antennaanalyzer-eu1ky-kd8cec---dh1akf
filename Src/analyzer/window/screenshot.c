@@ -275,7 +275,7 @@ char* SCREENSHOT_SelectFileName(void)
             if (0 != strcasecmp(pdot, ".bmp") && 0 != strcasecmp(pdot, ".png"))
                 continue; //Bypass files that are not bmp
             for (i = 0; i < 8; i++)
-                if (!isdigit(fno.fname[i]))
+                if (!isdigit((unsigned char)fno.fname[i]))
                     break;
             if (i != 8)
                 continue; //Bypass file names that are not 8-digit numbers

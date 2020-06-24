@@ -744,7 +744,7 @@ void InitVoltage(void){
 //KD8CEC : for Visible Voltage indicator from hidden by other screen
 void DisplayVoltage()
 {
-    char text1[10];
+    char text1[12];
     LCDColor vbg;
 
     //Modified by KD8CEC for users request
@@ -752,7 +752,7 @@ void DisplayVoltage()
     //strcat(text1,"%");
     //sprintf(text1,"%5.2fV %3.0f%% ", VoltFloat, percent);
     //2019.03.26 removed % mark
-    sprintf(text1,"%5.2fV %3.0f ", VoltFloat, percent);
+    snprintf(text1,12,"%5.2fV %3.0f ", VoltFloat, percent);
 
     //vbg=BackGrColor;
     vbg = LCD_RGB(64, 64, 64);  //

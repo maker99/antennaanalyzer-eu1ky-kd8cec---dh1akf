@@ -1087,8 +1087,8 @@ void Track_Proc(void)
 
                 if (autofast)
                 {
-                    char tmpBuff[16];
-                    sprintf(tmpBuff, "AUTO SPEED : [%d] ", autoMeasureSpeed);
+                    char tmpBuff[21];
+                    snprintf(tmpBuff,20, "AUTO SPEED : [%d] ", autoMeasureSpeed);
                     FONT_Write(FONT_FRAN, LCD_BLACK, LCD_RED, 50, 0, tmpBuff);
                 }
             }

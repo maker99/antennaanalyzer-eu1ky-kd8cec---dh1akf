@@ -846,7 +846,7 @@ void jt_message_prep(char * message)
   // Convert all chars to uppercase
   for(i = 0; i < 13; i++)
   {
-    if(islower(message[i]))
+    if(islower((unsigned char) message[i]))
     {
       message[i] = toupper(message[i]);
     }
@@ -863,7 +863,7 @@ void ft_message_prep(char * message)
   // Convert all chars to uppercase
   for(i = 0; i < 13; i++)
   {
-    if(islower(temp_msg[i]))
+    if(islower((unsigned char) temp_msg[i]))
     {
       temp_msg[i] = toupper(temp_msg[i]);
     }
@@ -899,7 +899,7 @@ void wspr_message_prep(char * call, char * loc, uint8_t dbm)
 	for(i = 0; i < 6; i++)
 	{
 		call[i] = toupper(call[i]);
-		if(!(isdigit(call[i]) || isupper(call[i])))
+		if(!(isdigit((unsigned char) call[i]) || isupper((unsigned char) call[i])))
 		{
 			call[i] = ' ';
 		}
@@ -911,7 +911,7 @@ void wspr_message_prep(char * call, char * loc, uint8_t dbm)
 	for(i = 0; i < 4; i++)
 	{
 		loc[i] = toupper(loc[i]);
-		if(!(isdigit(loc[i]) || (loc[i] >= 'A' && loc[i] <= 'R')))
+		if(!(isdigit((unsigned char) loc[i]) || (loc[i] >= 'A' && loc[i] <= 'R')))
 		{
       memcpy(loc, "AA00", 5);
       //loc = "AA00";
@@ -1149,7 +1149,7 @@ void ft8_bit_packing(char* message, uint8_t* codeword)
 		// Convert all chars to uppercase
 	    for(i = 0; i < strlen(temp_msg); i++)
 	    {
-	      if(islower(temp_msg[i]))
+	      if(islower((unsigned char) temp_msg[i]))
 	      {
 	        temp_msg[i] = toupper(temp_msg[i]);
 	      }

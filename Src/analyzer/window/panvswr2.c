@@ -2087,7 +2087,7 @@ int Scan200(uint8_t line, int index1)
 }
 
 
-char str[6];
+char str[8];
 int i;
 
 uint32_t freqx;// kHz
@@ -3009,7 +3009,7 @@ void QuCalibrate(void){
     if(span>BS1000) span=BS1000;// maximum: 1 MHz
     ScanRX(1);//only compute C0
     C0=Cp;
-    sprintf(str, "C0 = %.2f pF", 1e12*C0);
+    snprintf(str,14, "C0 = %.2f pF", 1e12*C0);
     FONT_Write(FONT_FRANBIG, TextColor, BackGrColor, 200, 100, str);
     sCalib=1;
     LCD_FillRect(LCD_MakePoint(10,180),LCD_MakePoint(440,215),BackGrColor);
@@ -3022,7 +3022,7 @@ void QuCalibrate(void){
 
 void QuMeasure(void){
 // int i; // unused
-char str[10];
+char str[15];
 float Cs,Ls,Q;
 
     if(sFreq==0) {
@@ -3042,11 +3042,11 @@ float Cs,Ls,Q;
     //test((char) span);//Testpunkt
     ScanRX(0);
     Cp-=C0;
-    sprintf(str, "Cp = %.2f  ", 1e12*Cp);
+    snprintf(str,14, "Cp = %.2f  ", 1e12*Cp);
     FONT_Write(FONT_FRANBIG, TextColor, BackGrColor, 200, 140, str);
-    sprintf(str, "Fs = %lu  ", Fs);
+    snprintf(str,14, "Fs = %lu  ", Fs);
     FONT_Write(FONT_FRANBIG, TextColor, BackGrColor, 200, 60, str);
-    sprintf(str, "Fp = %lu  ", Fp);
+    snprintf(str,14, "Fp = %lu  ", Fp);
     FONT_Write(FONT_FRANBIG, TextColor, BackGrColor, 200, 100, str);
 
     Sleep(2000);
@@ -3069,25 +3069,25 @@ float Cs,Ls,Q;
     Cp-=C0;
     LCD_FillAll(BackGrColor);// LCD_BLACK WK
     FONT_Write(FONT_FRANBIG, TextColor, BackGrColor, 150, 20, "Quartz Data ");
-    sprintf(str, "Fs = %lu  ", Fs);
+    snprintf(str,14, "Fs = %lu  ", Fs);
     FONT_Write(FONT_FRANBIG, TextColor, BackGrColor, 20, 60, str);
-    sprintf(str, "Fp = %lu  ", Fp);
+    snprintf(str,14, "Fp = %lu  ", Fp);
     FONT_Write(FONT_FRANBIG, TextColor, BackGrColor, 240, 60, str);
     if(Fs!=0){
-        sprintf(str, "Cp = %.2f pF ", 1e12*Cp);
+        snprintf(str,14, "Cp = %.2f pF ", 1e12*Cp);
         FONT_Write(FONT_FRANBIG, TextColor, BackGrColor, 240, 100, str);
 
         if(Fp!=0){
             Cs=2.0f*Cp*(Fp-Fs)/Fs;
-            sprintf(str, "Cs = %.4f pF ", 1e12*Cs);
+            snprintf(str,14, "Cs = %.2f pF ", 1e12*Cs);
             FONT_Write(FONT_FRANBIG, TextColor, BackGrColor, 20, 100, str);
             Ls=1/(Cs*39.478f*Fs*Fs);
-            sprintf(str, "Ls = %.1f mH ", 1e3*Ls);
+            snprintf(str,14, "Ls = %.1f mH ", 1e3*Ls);
             FONT_Write(FONT_FRANBIG, TextColor, BackGrColor, 20, 140, str);
-            sprintf(str, "Rs = %.1f Ohm", Rs);
+            snprintf(str,14, "Rs = %.1f Ohm", Rs);
             FONT_Write(FONT_FRANBIG, TextColor, BackGrColor, 20, 180, str);
             Q=(1/Rs)*sqrtf(Ls/Cs);
-            sprintf(str, "Q = %.0f   ", Q);
+            snprintf(str,14, "Q = %.0f   ", Q);
             FONT_Write(FONT_FRANBIG, TextColor, BackGrColor, 240, 180, str);
         }
     }
