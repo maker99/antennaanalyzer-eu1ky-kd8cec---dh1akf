@@ -46,7 +46,10 @@ _ssize_t _write_r (struct _reent *r, int file, const void *ptr, size_t len)
         //
         // Check if SWO is enabled / Debugger is connected
         //
-        if ((DHCSR & 1)!= 1 || (DEMCR & (1 << 24)) == 0 || (ITM_TCR & (1 << 22)) == 1 || (ITM_ENA & 1) == 0)
+        if ((DHCSR & 1)!= 1 
+        || (DEMCR & (1 << 24)) == 0 
+        || (ITM_TCR & (1 << 22)) !=0 
+        || (ITM_ENA & 1) == 0)
         {
             return len;
         }
