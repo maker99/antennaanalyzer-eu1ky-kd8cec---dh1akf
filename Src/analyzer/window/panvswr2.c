@@ -1836,6 +1836,7 @@ void Tune_SWR_Proc(void){// ----------------------------------------------------
             if (rqExitSWR)
             {
                 Tone=0;
+                AUDIO1=0;
                 //UB_TIMER2_Init_FRQ(1000);
                 rqExitSWR=false;
                 GEN_SetMeasurementFreq(0);
@@ -1877,14 +1878,14 @@ void Tune_SWR_Proc(void){// ----------------------------------------------------
                 vswLogf= 200.0*log10f(10.0*log10f(vswrf)+5.0);
 
                 last_TuneFreq = (uint32_t)(6.0 * vswLogf - 250.0);
-                if(Tone==1)
-                {
+                if(Tone==1)                 {
+                    AUDIO1=1;
                     UB_TIMER2_Init_FRQ(last_TuneFreq); //100...1000 Hz
                     UB_TIMER2_Start();
-                }
-                else
+                } else {
                     UB_TIMER2_Stop();
-
+                    AUDIO1=0;
+                }
                 sprintf(str, "SWR: %.2f  ", vswrf);
                 LCD_FillRect(LCD_MakePoint(200, 60), LCD_MakePoint(470,115), BackGrColor);
                 FONT_Write(FONT_FRANBIG, TextColor, BackGrColor, 200, 60, str);
