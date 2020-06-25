@@ -186,6 +186,7 @@ uint32_t TEXTBOX_HitTest(TEXTBOX_CTX_t *ctx)
                     UB_TIMER2_Start();
                     Sleep(100);
                     UB_TIMER2_Stop();
+                    AUDIO1=0;
                 }
                 if (pbox->cb)
                 {
